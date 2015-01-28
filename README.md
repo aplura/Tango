@@ -8,4 +8,7 @@ Tango is a Honeypot distribution and analysis platform useful for deploying and 
 - Sensor Management
 - IOC Feed
 
-This system is useful for generating Indicators of Compromise (IOCs) by analyzing the attackers and the Tools, Techniques and Procedures (TTPs) they utilize. This feed can then be exported and consumed by any tool which can consume Threat Intelligence data.
+This system is useful for generating Indicators of Compromise (IOCs) by analyzing the attackers and the Tools, Techniques and Procedures (TTPs) they utilize. This feed can then be exported and consumed by any tool which can consume Threat Intelligence data. Tango will provide end-users with the threat intelligence gathered from the honeypot network, which can be contributed to by anyone, which will expand the threat feed exponentially.
+
+## How Tango Works
+
