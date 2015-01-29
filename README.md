@@ -1,5 +1,5 @@
-### Tango
-##### A Splunk-managed Honeypot Solution
+# Tango
+#### A Splunk-managed Honeypot Solution
 
 ## How Tango Works
 
