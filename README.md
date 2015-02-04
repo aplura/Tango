@@ -22,6 +22,7 @@ The script will install Splunk, which at this time is version 6.2.1 and set up r
 This script has been tested on a brand-new install of Ubuntu 14.04 with no reported issues.
 
 Copy client.sh to the server you wish to install on
+
 Before running the client.sh script you will need to edit the script and change the following:
 
 - SPLUNK_INDEXER="" - Set this to your Tango Server's IP address
