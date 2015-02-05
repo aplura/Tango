@@ -4,6 +4,9 @@
 ## About
 Tango is a tool which helps organizations deploy honeypots and enable the secure communication of their logs back to you via Splunk, so you can analyze and track what is happening on your honeypots. Tango provides the scripts to install the Tango Server (Splunk Indexer/Search Head) as well as the Tango Sensors (Linux server running Kippo and a Splunk Universal Forwarder). By running the scripts provided, you can easily and rapidly deploy as many honeypots as you would like without worrying about the administration and management, so you can focus on the analysis and reacting to the threats.
 
+<p align="center">
+<img src="http://f.cl.ly/items/2w113m143M2U0x0P0B2Q/Slide1.png"></p>
+
 ## Installation
 There are two parts to the installation, one is setting up the Tango Server, the other is setting up the sensors. 
 
@@ -48,5 +51,6 @@ The script will install the required packages based on the OS, then install Kipp
 
 Once you have your server and sensors installed, log into your Tango Server (http://server_ip:8000) and log in with the password you configured earlier. Click on the "Search & Reporting" app located on the left-hand side. On the right-hand side in the text box, there is a time-selector, select "All time (real-time)". Then in the search bar, type in ```index=honeypot``` and then press enter. Next, open a terminal and attempt to ssh as root to the Tango Sensor IP address. At the password prompt, enter ```123456```. Open up your browser again, and in the Splunk results window, you should see events, this means your install is working. 
 
-
+<p align="center">
+<img src="http://f.cl.ly/items/1k1w3U0W2N2A2D063a1i/Screen%20Shot%202015-02-04%20at%203.14.14%20PM.png"></p>
 
