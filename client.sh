@@ -9,11 +9,13 @@ useradd splunk
 useradd kippo
 
 if [ -f /etc/debian_version ]; then
-    apt-get -y install python-twisted python-dev python-openssl python-pyasn1 authbind
+    apt-get -y install python-twisted python-dev python-openssl python-pyasn1 authbind git
 elif [ -f /etc/redhat-release ]; then
     yum -y update
-    yum -y install wget python-devel python-zope-interface unzip
+    yum -y install wget python-devel python-zope-interface unzip git
+    #####
     yum -y group install "Development Tools"
+    #####
     easy_install Twisted pycrypto pyasn1
 else
     DISTRO=$(uname -s)
@@ -21,9 +23,7 @@ fi
 
 # Installing Kippo Honeypot
 cd /opt
-wget -O kippo.zip https://github.com/desaster/kippo/archive/master.zip
-unzip kippo.zip
-mv kippo-master/ kippo
+git clone https://github.com/desaster/kippo.git
 cd kippo
 cp kippo.cfg.dist kippo.cfg
 sed -i "s/svr03/$KIPPO_HOST/" kippo.cfg
@@ -38,9 +38,8 @@ elif [ -f /etc/redhat-release ]; then
     sed -i "s/#Port 22/Port $SSH_PORT/" sshd_config
     service sshd restart
     cd /tmp
-    wget -O master.zip https://github.com/tootedom/authbind-centos-rpm/archive/master.zip
-    unzip master.zip
-    cd authbind-centos-rpm-master/authbind/RPMS/x86_64/
+    git clone https://github.com/tootedom/authbind-centos-rpm.git
+    cd authbind-centos-rpm/authbind/RPMS/x86_64/
     rpm -i authbind-2.1.1-0.x86_64.rpm
 else
     echo
