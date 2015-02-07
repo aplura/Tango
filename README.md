@@ -1,5 +1,5 @@
 # Tango
-#### A Splunk-managed Honeypot Solution
+#### Honeypot Intelligence
 
 ## About
 Tango is a tool which helps organizations deploy honeypots and enable the secure communication of their logs back to you via Splunk, so you can analyze and track what is happening on your honeypots. Tango provides the scripts to install the Tango Server (Splunk Indexer/Search Head) as well as the Tango Sensors (Linux server running Kippo and a Splunk Universal Forwarder). By running the scripts provided, you can easily and rapidly deploy as many honeypots as you would like without worrying about the administration and management, so you can focus on the analysis and reacting to the threats.
