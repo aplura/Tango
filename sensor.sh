@@ -10,10 +10,10 @@ useradd kippo
 
 if [ -f /etc/debian_version ]; then
     apt-get -y update
-    apt-get -y install python-twisted python-dev python-openssl python-pyasn1 authbind git curl
+    apt-get -y install python-twisted python-dev python-openssl python-pyasn1 authbind git
 elif [ -f /etc/redhat-release ]; then
     yum -y update
-    yum -y install wget python-devel python-zope-interface unzip git curl
+    yum -y install wget python-devel python-zope-interface unzip git
     #####
     yum -y group install "Development Tools"
     #####
@@ -67,6 +67,10 @@ su splunk -c "/opt/splunkforwarder/bin/splunk start --accept-license --answer-ye
 
 su splunk -c "/opt/splunkforwarder/bin/splunk add forward-server $SPLUNK_INDEXER -auth admin:changeme"
 su splunk -c "/opt/splunkforwarder/bin/splunk add monitor /opt/kippo/log/kippo.log -index honeypot -sourcetype kippo -host $HOST_NAME"
+
+git clone https://github.com/aplura/Tango.git
+cd Tango
+mv tango_input /opt/splunkforwarder/etc/apps/
 
 chown -R splunk:splunk /opt/splunkforwarder
 /opt/splunkforwarder/bin/splunk restart
