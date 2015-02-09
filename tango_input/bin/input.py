@@ -1,6 +1,12 @@
-import subprocess
-import sys
-import os
+import pycurl
+from StringIO import StringIO
 
-output = subprocess.check_output('curl -s icanhazip.com', shell=True)
-print "sensorIP="+output
+buffer = StringIO()
+c = pycurl.Curl()
+c.setopt(c.URL, 'http://icanhazip.com')
+c.setopt(c.WRITEDATA, buffer)
+c.perform()
+c.close()
+
+body= buffer.getvalue()
+print "sensorIP="+(body)
