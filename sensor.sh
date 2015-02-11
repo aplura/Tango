@@ -66,12 +66,14 @@ chown -R splunk:splunk splunkforwarder
 su splunk -c "/opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --auto-ports --no-prompt"
 /opt/splunkforwarder/bin/splunk enable boot-start -user splunk
 
-su splunk -c "/opt/splunkforwarder/bin/splunk add forward-server $SPLUNK_INDEXER -auth admin:changeme"
-su splunk -c "/opt/splunkforwarder/bin/splunk add monitor /opt/kippo/log/kippo.log -index honeypot -sourcetype kippo -host $HOST_NAME"
+#su splunk -c "/opt/splunkforwarder/bin/splunk add forward-server $SPLUNK_INDEXER -auth admin:changeme"
+#su splunk -c "/opt/splunkforwarder/bin/splunk add monitor /opt/kippo/log/kippo.log -index honeypot -sourcetype kippo -host $HOST_NAME"
 
 git clone https://github.com/aplura/Tango.git
 cd Tango
 mv tango_input /opt/splunkforwarder/etc/apps/
+cd /opt/splunkforwarder/etc/apps/tango_input/default
+sed -i "s/hostname/$HOST_NAME/"
 
 chown -R splunk:splunk /opt/splunkforwarder
 /opt/splunkforwarder/bin/splunk restart
