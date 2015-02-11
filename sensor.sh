@@ -73,7 +73,7 @@ git clone https://github.com/aplura/Tango.git
 cd Tango
 mv tango_input /opt/splunkforwarder/etc/apps/
 cd /opt/splunkforwarder/etc/apps/tango_input/default
-sed -i "s/hostname/$HOST_NAME/"
+sed -i "s/hostname/$HOST_NAME/" inputs.conf
 
 chown -R splunk:splunk /opt/splunkforwarder
 /opt/splunkforwarder/bin/splunk restart
