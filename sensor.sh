@@ -5,9 +5,11 @@ HOST_NAME="hp-md-01"
 SSH_PORT="1337"
 KIPPO_HOST="dev01"
 
+# Adding required users
 useradd splunk
 useradd kippo
 
+# Based on the OS (Debian or Redhat based), use the OS package manger to download required packages
 if [ -f /etc/debian_version ]; then
     apt-get -y update
     apt-get -y install python-twisted python-dev python-openssl python-pyasn1 authbind git python-pip libcurl4-gnutls-dev libssl-dev
@@ -15,9 +17,8 @@ if [ -f /etc/debian_version ]; then
 elif [ -f /etc/redhat-release ]; then
     yum -y update
     yum -y install wget python-devel python-zope-interface unzip git
-    #####
+    # Development Tools isn't needed, so, we need to figure out the packages we need
     yum -y group install "Development Tools"
-    #####
     easy_install Twisted pycrypto pyasn1
 else
     DISTRO=$(uname -s)
@@ -25,12 +26,15 @@ fi
 
 # Installing Kippo Honeypot
 cd /opt
+# Using a fork of Kippo from Michel Oosterhof, which adds some new commands and better logging
 git clone https://github.com/micheloosterhof/kippo.git
 cd kippo
 cp kippo.cfg.dist kippo.cfg
+# Changing the Honeypot name as well as changing the port that Kippo listens on
 sed -i "s/svr03/$KIPPO_HOST/" kippo.cfg
 sed -i "s/2222/22/" kippo.cfg
 
+# Changing the port that SSH listens on to the variable set above
 if [ -f /etc/debian_version ]; then
     cd /etc/ssh/
     sed -i "s/Port 22/Port $SSH_PORT/" sshd_config
@@ -47,6 +51,7 @@ else
     echo
 fi
 
+# Setting up authbind to allow kippo user to use privileged port
 touch /etc/authbind/byport/22
 chown kippo:kippo /etc/authbind/byport/22
 chmod 777 /etc/authbind/byport/22
@@ -56,7 +61,6 @@ sed -i "s,twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid,authbind --de
 su kippo -c "./start.sh"
 
 # Installing Splunk Universal Forwarder
-
 mkdir /home/splunk
 chown -R splunk:splunk /home/splunk
 cd /opt
@@ -66,9 +70,7 @@ chown -R splunk:splunk splunkforwarder
 su splunk -c "/opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --auto-ports --no-prompt"
 /opt/splunkforwarder/bin/splunk enable boot-start -user splunk
 
-#su splunk -c "/opt/splunkforwarder/bin/splunk add forward-server $SPLUNK_INDEXER -auth admin:changeme"
-#su splunk -c "/opt/splunkforwarder/bin/splunk add monitor /opt/kippo/log/kippo.log -index honeypot -sourcetype kippo -host $HOST_NAME"
-
+# Installing the tango_input app which configures inputs and outputs and hostname
 git clone https://github.com/aplura/Tango.git
 cd Tango
 mv tango_input /opt/splunkforwarder/etc/apps/
