@@ -10,7 +10,8 @@ useradd kippo
 
 if [ -f /etc/debian_version ]; then
     apt-get -y update
-    apt-get -y install python-twisted python-dev python-openssl python-pyasn1 authbind git
+    apt-get -y install python-twisted python-dev python-openssl python-pyasn1 authbind git python-pip libcurl4-gnutls-dev
+    pip install pycurl
 elif [ -f /etc/redhat-release ]; then
     yum -y update
     yum -y install wget python-devel python-zope-interface unzip git
