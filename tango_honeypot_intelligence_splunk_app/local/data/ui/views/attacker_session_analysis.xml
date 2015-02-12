@@ -1,0 +1,90 @@
+<form>
+  <label>Session Analysis</label>
+  <description>This dashboard provides insights into the various details about the attacker sessions</description>
+  <fieldset submitButton="false">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Sessions with Command Interaction</title>
+      <single>
+        <search>
+          <query>index=honeypot cmd=* | stats dc(session_id) AS dcount | appendcols [search index=honeypot | stats dc(session_id) AS ddcount] | eval total=(dcount/ddcount*100) | fields - dcount ddcount | eval total=round(total,2) | rename total AS "Interaction Percentage"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="underLabel">Percent</option>
+        <option name="linkView">search</option>
+      </single>
+    </panel>
+    <panel>
+      <title>SSH Key Algorithms</title>
+      <table>
+        <search>
+          <query>index=honeypot | stats count by key_algorithm | rename key_algorithm AS "SSH Key Algorithms"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+    <panel>
+      <title>SSH Versions</title>
+      <table>
+        <search>
+          <query>index=honeypot | stats count by ssh_version |  rename ssh_version AS "Attacker SSH Versions" | sort - count</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>PTY Request Options</title>
+      <table>
+        <search>
+          <query>index=honeypot | stats count by pty_request | rename pty_request AS "PTY Request"</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+    <panel>
+      <title>Environment Details</title>
+      <table>
+        <search>
+          <query>index=honeypot  | stats count by env | rename env AS "Session Environment Details"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+</form>

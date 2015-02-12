@@ -1,0 +1,94 @@
+<form>
+  <label>Session Playlog</label>
+  <description>Displays commands entered during each session as well as the raw logs from each session</description>
+  <fieldset submitButton="false">
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Sessions with Interaction</title>
+      <input type="dropdown" token="sensor">
+        <label>Sensor</label>
+        <search>
+          <query>index=honeypot cmd=* | table host | dedup host</query>
+        </search>
+        <fieldForLabel>host</fieldForLabel>
+        <fieldForValue>host</fieldForValue>
+        <choice value="*">All</choice>
+        <default>*</default>
+      </input>
+      <table>
+        <search>
+          <query>search index=honeypot host=$sensor$| iplocation prefix=iploc_ allfields=true src_ip | eval src_ip_Country = if(isnull(iploc_Country),"Unknown",iploc_Country) | eval session_hash = src_ip.session_id.host | eval session_hash = md5(session_hash)| stats earliest(_time) as Time, values(src_ip) AS "Attacker IP", values(src_ip_Country) AS "Attacker Country", values(host) as "Sensor", count(cmd) as msgcount by session_hash | where msgcount &gt; 0 | eval Time=strftime(Time,"%m/%d/%y %H:%M:%S") | rename session_hash AS "Session ID", msgcount AS "Message Count" | sort - Time</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Commands Entered During Session</title>
+      <input type="dropdown" token="ipaddress" searchWhenChanged="true">
+        <label>IP Address</label>
+        <search>
+          <query>index=honeypot cmd=* | table src_ip | dedup src_ip | sort + src_ip</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <fieldForLabel>src_ip</fieldForLabel>
+        <fieldForValue>src_ip</fieldForValue>
+      </input>
+      <input type="dropdown" token="field2" searchWhenChanged="true">
+        <label>Session Hash</label>
+        <search>
+          <query>index=honeypot cmd=*  src_ip=$ipaddress$ |  table session_hash | dedup session_hash | sort - session_hash</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <fieldForLabel>session_hash</fieldForLabel>
+        <fieldForValue>session_hash</fieldForValue>
+      </input>
+      <table>
+        <search>
+          <query>index=honeypot cmd=* src_ip=$ipaddress$ session_hash=$field2$ | stats values(cmd) AS "Command Entered", by _time, session_hash | table "Command Entered", _time | rename _time AS "Time" | eval Time=strftime(Time,"%m/%d/%y %H:%M:%S") | sort - "Time"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Raw Log</title>
+      <table>
+        <search>
+          <query>index=honeypot session_hash=$field2$ src_ip=$ipaddress$ | table _raw</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+</form>

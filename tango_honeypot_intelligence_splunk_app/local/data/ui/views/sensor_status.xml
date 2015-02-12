@@ -1,0 +1,43 @@
+<dashboard>
+  <label>Sensor Status</label>
+  <description>Provides information on each Tango Sensor</description>
+  <row>
+    <panel>
+      <title>Sensor Status</title>
+      <table>
+        <search>
+          <query>index=honeypot  |  stats latest(_time) as Time, latest(sensorIP) as Sensor,  by host | rename host as "Sensor Name" | eval Time=strftime(Time, "%m/%d/%y %H:%M:%S") | rename Time as "Last Active" Sensor AS "Sensor IP Address"  | sort - "Last Active"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Sensor Location</title>
+      <map>
+        <search>
+          <query>index=honeypot  | stats values(sensorIP) as Sensor by host | geoip Sensor | geostats latfield=Sensor_latitude longfield=Sensor_longitude count by Sensor</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="mapping.data.maxClusters">100</option>
+        <option name="mapping.drilldown">all</option>
+        <option name="mapping.map.center">(0,0)</option>
+        <option name="mapping.map.zoom">2</option>
+        <option name="mapping.markerLayer.markerMaxSize">50</option>
+        <option name="mapping.markerLayer.markerMinSize">10</option>
+        <option name="mapping.markerLayer.markerOpacity">0.8</option>
+        <option name="mapping.tileLayer.maxZoom">7</option>
+        <option name="mapping.tileLayer.minZoom">0</option>
+        <option name="drilldown">all</option>
+      </map>
+    </panel>
+  </row>
+</dashboard>

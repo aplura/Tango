@@ -1,0 +1,197 @@
+<view onunloadCancelJobs="False" autoCancelInterval="100">
+  <!--  autoCancelInterval is set here to 100  -->
+  <label>Sample search</label>
+  <module name="AccountBar" layoutPanel="appHeader"/>
+  <module name="AppBar" layoutPanel="navigationHeader"/>
+  <module name="Message" layoutPanel="messaging">
+    <param name="filter">*</param>
+    <param name="clearOnJobDispatch">False</param>
+    <param name="maxSize">1</param>
+  </module>
+  <module name="SearchBar" layoutPanel="splSearchControls-inline">
+    <param name="useAssistant">true</param>
+    <param name="useTypeahead">true</param>
+    <param name="useOwnSubmitButton">False</param>
+    <module name="TimeRangePicker">
+      <param name="selected">All time</param>
+      <param name="searchWhenChanged">True</param>
+      <module name="SubmitButton">
+        <param name="allowSoftSubmit">True</param>
+        <module name="Message" layoutPanel="graphArea">
+          <param name="filter">splunk.search.job</param>
+          <param name="clearOnJobDispatch">True</param>
+          <param name="maxSize">2</param>
+          <module name="JobStatus">
+            <param name="resultsLink">
+              <param name="popup">True</param>
+              <param name="viewTarget">report_builder_define_data</param>
+              <param name="transformedResultsViewTarget">report_builder_format_report</param>
+            </param>
+            <module name="FlashTimeline" layoutPanel="graphArea">
+              <param name="height">180px</param>
+              <param name="width">100%</param>
+              <module name="TitleBar" layoutPanel="viewHeader"/>
+              <module name="FieldPicker" layoutPanel="sidebar">
+                <param name="fields">host sourcetype source</param>
+                <param name="link">
+                  <param name="view">report_builder_format_report</param>
+                </param>              
+                <module name="Message" layoutPanel="resultsAreaLeft">
+                  <param name="filter">pageControls</param>
+                  <param name="clearOnJobDispatch">True</param>
+                  <param name="maxSize">1</param>
+                </module>
+                <module name="Count" layoutPanel="pageControls">
+                  <param name="options">
+                    <list>
+                      <param name="text">10</param>
+                      <param name="value">10</param>
+                    </list>
+                    <list>
+                      <param name="text">20</param>
+                      <param name="value">20</param>
+                    </list>
+                    <list>
+                      <param name="text">50</param>
+                      <param name="selected">True</param>
+                      <param name="value">50</param>
+                    </list>
+                  </param>
+                  <module name="ButtonSwitcher" layoutPanel="pageControls">
+                    <param name="mode">independent</param>
+                    <param name="selected">splIcon-events-list</param>
+                    <param name="disableOnNull">True</param>
+                    <module name="ResultsHeader" layoutPanel="resultsHeaderPanel" group="splIcon-events-list" altTitle="Events List">
+                      <param name="entityLabel">events</param>
+                      <param name="entityName">events</param>
+                      <module name="Paginator" layoutPanel="pageControls">
+                        <param name="entityName">events</param>
+                        <param name="maxPages">10</param>
+                        
+                        <module name="SoftWrap" layoutPanel="resultsOptions">
+                          <param name="enable">True</param>
+                          <module name="RowNumbers">
+                            <module name="MaxLines">
+                              <param name="options">
+                                <list>
+                                  <param name="text">5</param>
+                                  <param name="selected">True</param>
+                                  <param name="value">5</param>
+                                </list>
+                                <list>
+                                  <param name="text">10</param>
+                                  <param name="value">10</param>
+                                </list>
+                                <list>
+                                  <param name="text">20</param>
+                                  <param name="value">20</param>
+                                </list>
+                                <list>
+                                  <param name="text">50</param>
+                                  <param name="value">50</param>
+                                </list>
+                                <list>
+                                  <param name="text">100</param>
+                                  <param name="value">100</param>
+                                </list>
+                                <list>
+                                  <param name="text">200</param>
+                                  <param name="value">200</param>
+                                </list>
+                                <list>
+                                  <param name="text">All</param>
+                                  <param name="value">0</param>
+                                </list>
+                              </param>
+                              <module name="Segmentation" >
+                                <param name="options">
+                                  <list>
+                                    <param name="text">inner</param>
+                                    <param name="selected">True</param>
+                                    <param name="value">inner</param>
+                                  </list>
+                                  <list>
+                                    <param name="text">outer</param>
+                                    <param name="value">outer</param>
+                                  </list>
+                                  <list>
+                                    <param name="text">full</param>
+                                    <param name="value">full</param>
+                                  </list>
+                                  <list>
+                                    <param name="text">raw</param>
+                                    <param name="value">raw</param>
+                                  </list>
+                                </param>
+                                <module name="EventsViewer" layoutPanel="resultsAreaLeft">
+                                  <param name="segmentation">full</param>
+                                  <param name="reportFieldLink">report_builder_format_report</param>
+                                </module>
+                              </module>
+                            </module>
+                          </module>
+                        </module>
+                      </module>
+                    </module>
+
+                    <module name="ResultsHeader" layoutPanel="resultsHeaderPanel" group="splIcon-events-table" altTitle="Events Table">
+                      <param name="entityLabel">events</param>
+                      <param name="entityName">events</param>
+                      <module name="Paginator" layoutPanel="pageControls">
+                        <param name="count">50</param>
+                        <param name="entityName">events</param> 
+                        <param name="maxPages">10</param>
+                        <module name="RowNumbers" layoutPanel="resultsOptions">
+                          <module name="DataOverlay" layoutPanel="resultsAreaLeft">
+                            <module name="SimpleResultsTable" layoutPanel="resultsAreaLeft">
+                              <param name="entityName">events</param>
+                            </module>
+                          </module>
+                        </module>
+                      </module>
+                    </module>
+                    <module name="ResultsHeader" layoutPanel="resultsHeaderPanel" group="splIcon-results-table" altTitle="Results Table">
+                      <param name="entityLabel">results</param>
+                      <param name="entityName">results</param>
+                      <module name="EnablePreview" group="show" layoutPanel="resultsOptions">
+                        <param name="enable">True</param>
+                        <module name="Paginator" layoutPanel="pageControls">
+                          <param name="count">50</param>
+                          <param name="entityName">results</param> 
+                          <param name="maxPages">10</param>
+                          <module name="RowNumbers" layoutPanel="resultsOptions">
+                            <module name="DataOverlay" layoutPanel="resultsAreaLeft">
+                              <module name="SimpleResultsTable" layoutPanel="resultsAreaLeft">
+                                <param name="entityName">results</param>
+                              </module>
+                            </module>
+                          </module>
+                        </module>
+                      </module>
+                    </module>
+                  </module>                
+                </module>
+                <module name="MultiFieldViewer">
+                  <param name="link">
+                    <param name="view">report_builder_format_report</param>
+                  </param>
+                </module>
+                <module name="SuggestedFieldViewer">
+                  <param name="minDistinctCount">1</param>
+                  <param name="minFrequency">0.5</param>
+                  <param name="maxFields">50</param>
+                  <param name="exclude">
+                    <list>^date_.*</list>
+                  </param>
+                  <param name="link">
+                    <param name="view">report_builder_format_report</param>
+                  </param>
+                </module>
+              </module>
+            </module>
+          </module>
+        </module>
+      </module>
+    </module>
+  </module>
+</view>
