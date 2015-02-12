@@ -12,17 +12,29 @@ useradd kippo
 # Based on the OS (Debian or Redhat based), use the OS package manger to download required packages
 if [ -f /etc/debian_version ]; then
     apt-get -y update
-    apt-get -y install python-twisted python-dev python-openssl python-pyasn1 authbind git python-pip libcurl4-gnutls-dev libssl-dev
+    apt-get -y install python-dev python-openssl python-pyasn1 authbind git python-pip libcurl4-gnutls-dev libssl-dev
     pip install pycurl
+    pip install service_identity
 elif [ -f /etc/redhat-release ]; then
     yum -y update
     yum -y install wget python-devel python-zope-interface unzip git
     # Development Tools isn't needed, so, we need to figure out the packages we need
     yum -y group install "Development Tools"
-    easy_install Twisted pycrypto pyasn1
+    easy_install pycrypto pyasn1
 else
     DISTRO=$(uname -s)
 fi
+
+# Grabbing Twisted Source
+cd /tmp
+wget https://pypi.python.org/packages/source/T/Twisted/Twisted-15.0.0.tar.bz2
+tar -xvf Twisted-15.0.0.tar.bz2
+cd Twisted-15.0.0/twisted/python
+# Adding our custom time format to include microseconds
+sed "s/%d-%02d-%02d %02d:%02d:%02d%s%02d%02d/%d-%02d-%02d %02d:%02d:%02d.%02d %s%02d%02d" log.py
+sed "s/when.hour, when.minute, when.second,/when.hour, when.minute, when.second,when.microsecond" log.py
+cd ../..
+python setup.py install
 
 # Installing Kippo Honeypot
 cd /opt
@@ -51,7 +63,7 @@ else
     echo
 fi
 
-# Setting up authbind to allow kippo user to use privileged port
+# Setting up authbind to allow kippo user to bind to privileged port
 touch /etc/authbind/byport/22
 chown kippo:kippo /etc/authbind/byport/22
 chmod 777 /etc/authbind/byport/22
