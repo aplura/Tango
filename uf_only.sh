@@ -40,7 +40,7 @@ cd Tango
 mv tango_input /opt/splunkforwarder/etc/apps/
 cd /opt/splunkforwarder/etc/apps/tango_input/default
 sed -i "s/test/$HOST_NAME/" inputs.conf
-sed -i "s/\/opt\/kippo\/log\/kippo.log/$KIPPO_LOG_LOCATION/" inputs.conf
+#sed -i "s/\/opt\/kippo\/log\/kippo.log/$KIPPO_LOG_LOCATION/" inputs.conf
 
 chown -R splunk:splunk /opt/splunkforwarder
 /opt/splunkforwarder/bin/splunk restart
