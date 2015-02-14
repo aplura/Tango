@@ -7,6 +7,7 @@ KIPPO_LOG_LOCATION='/opt/kippo/log/kippo.log.*'
 # Adding required users
 useradd splunk
 
+
 # Based on the OS (Debian or Redhat based), use the OS package manger to download required packages
 if [ -f /etc/debian_version ]; then
     apt-get -y update
