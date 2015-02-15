@@ -1,3 +1,5 @@
+###### *This app is still in heavy development. Please note that if you do download this, it is not the final copy and code may be wrong or not optimized, and definitely not meeting best practices in most cases. We are working on this app and will continue to update this page as it gets developed.*
+
 # Tango | Honeypot Intelligence
 
 ## About
