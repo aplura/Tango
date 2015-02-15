@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 INSTALL_FILE="splunkforwarder-6.1.6-249101-Linux-x86_64.tgz"
 SPLUNK_INDEXER="omgpwnd.no-ip.biz:9997"
 HOST_NAME="hp-md-01"
