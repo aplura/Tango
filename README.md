@@ -1,6 +1,7 @@
 ###### *This app is still in heavy development. Please note that if you do download this, it is not the final copy and code may be wrong or not optimized, and definitely not meeting best practices in most cases. We are working on this app and will continue to update this page as it gets developed.*
 
-# Tango | Honeypot Intelligence
+<p align="center">
+<img src="http://i.imgur.com/GwPM5SZ.png"></p>
 
 ## About
 Tango is a tool which helps organizations deploy honeypots and enables the tranmission of their logs back to you via Splunk, so you can analyze and track what is happening on your honeypots. Tango provides scripts which allow you to install everything you need on a brand-new system, or if you have existing honeypots that you want to start collecting logs from. By running the scripts provided, you can easily and rapidly deploy as many honeypots as you would like without worrying about the administration and management, so you can focus on the analysis and reacting to the threats.
