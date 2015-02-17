@@ -71,7 +71,7 @@ You'll notice in the navigation bar, there's a few different dashboards to choos
 - Attack Analysis
   - Attack Overview (Provides high-level details about # of attacks, latest attacks, attempts vs. successes, distinct attacker IP's)
 <p align="center">
-<img src="http://f.cl.ly/items/130H3W1b1p183O143g1w/Screen%20Shot%202015-02-17%20at%204.27.46%20PM.png"></p>
+<img src="http://f.cl.ly/items/201U2t0o1N3G2r08130i/Screen%20Shot%202015-02-17%20at%204.28.43%20PM.png"></p>
   - Session Playlog (Allows you to replay the attackers session on your honeypot so you can see what commands where entered during each session.)
 <p align="center">
 <img src="http://f.cl.ly/items/130H3W1b1p183O143g1w/Screen%20Shot%202015-02-17%20at%204.27.46%20PM.png"></p>
