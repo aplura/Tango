@@ -75,20 +75,20 @@ You'll notice in the navigation bar, there's a few different dashboards to choos
   - Session Playlog (Allows you to replay the attackers session on your honeypot so you can see what commands where entered during each session.)
 <p align="center">
 <img src="http://f.cl.ly/items/130H3W1b1p183O143g1w/Screen%20Shot%202015-02-17%20at%204.27.46%20PM.png"></p>
--  Session Analysis (Provides details on the information taken from session initiation, to include SSH Key Algorithms, SSH Versions, PTY Request Options, specific environment details (Language, Keyboard encoding))
+  - Session Analysis (Provides details on the information taken from session initiation, to include SSH Key Algorithms, SSH Versions, PTY Request Options, specific environment details (Language, Keyboard encoding))
 <p align="center">
 <img src="http://f.cl.ly/items/1V1s0p331h2D3V3W223y/Screen%20Shot%202015-02-17%20at%204.23.30%20PM.png"></p>
--  Location Overview (Gives location-based data, such as where attackers are coming from and where they are attacking most)
+  - Location Overview (Gives location-based data, such as where attackers are coming from and where they are attacking most)
 <p align="center">
 <img src="http://f.cl.ly/items/201U2t0o1N3G2r08130i/Screen%20Shot%202015-02-17%20at%204.28.43%20PM.png"></p>
--  Username/Password Analysis (General username/password statistics, top username/password combos, etc.)
+  - Username/Password Analysis (General username/password statistics, top username/password combos, etc.)
 <p align="center">
 <img src="http://f.cl.ly/items/133N1p2f3z3Z2Y220b1k/Screen%20Shot%202015-02-17%20at%204.29.19%20PM.png"></p>
 - Malware Analysis
--   File Analysis (When a user successfully downloads malware on the Honeypot, the inforamtion about that file will be provided here, to include SHA hash as well as information taken from VirusTotal's API (# of vendors that ID'ed the malware, malware names, etc.))
+  - File Analysis (When a user successfully downloads malware on the Honeypot, the inforamtion about that file will be provided here, to include SHA hash as well as information taken from VirusTotal's API (# of vendors that ID'ed the malware, malware names, etc.))
 <p align="center">
 <img src="http://f.cl.ly/items/133N1p2f3z3Z2Y220b1k/Screen%20Shot%202015-02-17%20at%204.29.19%20PM.png"></p>
--   URL Analysis (Any URL's or IP Addresses seen in the session will be analyzed here. A lot of times, the attacker will paste commands in the terminal and mess something up, or try to include a URL in a long, complicated command which was messed up, which means it won't actually get downloaded. For those scenarios, you can look at the analysis of the attempted malware downloads and URL's/Domains that were hit in this dashboard. This will provide the same information from the File Analysis portion as well, from VirusTotal.)
+  - URL Analysis (Any URL's or IP Addresses seen in the session will be analyzed here. A lot of times, the attacker will paste commands in the terminal and mess something up, or try to include a URL in a long, complicated command which was messed up, which means it won't actually get downloaded. For those scenarios, you can look at the analysis of the attempted malware downloads and URL's/Domains that were hit in this dashboard. This will provide the same information from the File Analysis portion as well, from VirusTotal.)
 <p align="center">
 <img src="http://f.cl.ly/items/0f1z1Z1g3y271V2n2I23/Screen%20Shot%202015-02-17%20at%204.31.42%20PM.png"></p>
 - Sensor Management (Gives details about each deployed sensor, their location, ISP, netblock, etc.)
