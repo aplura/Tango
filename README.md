@@ -69,12 +69,12 @@ Now that you have your sensors and server running, you'll want to use the Tango 
 You'll notice in the navigation bar, there's a few different dashboards to choose from, which include:
 
 - Attack Analysis
--  Attack Overview (Provides high-level details about # of attacks, latest attacks, attempts vs. successes, distinct attacker IP's)
+  - Attack Overview (Provides high-level details about # of attacks, latest attacks, attempts vs. successes, distinct attacker IP's)
 <p align="center">
 <img src="http://f.cl.ly/items/130H3W1b1p183O143g1w/Screen%20Shot%202015-02-17%20at%204.27.46%20PM.png"></p>
--  Session Playlog (Allows you to replay the attackers session on your honeypot so you can see what commands where entered during each session.)
+  - Session Playlog (Allows you to replay the attackers session on your honeypot so you can see what commands where entered during each session.)
 <p align="center">
-<img src="http://f.cl.ly/items/3s1p011J0E2J1C0s213z/Screen%20Shot%202015-02-17%20at%204.27.46%20PM.png"></p>
+<img src="http://f.cl.ly/items/130H3W1b1p183O143g1w/Screen%20Shot%202015-02-17%20at%204.27.46%20PM.png"></p>
 -  Session Analysis (Provides details on the information taken from session initiation, to include SSH Key Algorithms, SSH Versions, PTY Request Options, specific environment details (Language, Keyboard encoding))
 <p align="center">
 <img src="http://f.cl.ly/items/1V1s0p331h2D3V3W223y/Screen%20Shot%202015-02-17%20at%204.23.30%20PM.png"></p>
