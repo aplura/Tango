@@ -8,9 +8,11 @@
   <a href="/app/tango/password_analysis">Username/Password Analysis</a>
   </collection>
   <collection label="Malware Analysis">
-  <a href="/app/tango/malware_analysis">File Analysis</a>
-  <a href="/app/tango/url_analysis">URL Analysis</a>
+  <a href="/app/tango/url_analysis">File Analysis</a>
   <a href="/app/tango/malware_campaigns">Malware Campaigns</a>
+  </collection>
+  <collection label="Network Analysis">
+  <a href="/app/tango/network_analysis">Network Analysis</a>
   </collection>
   <collection label="Sensor Management">
   <a href="/app/tango/sensor_status">Sensor Status</a>

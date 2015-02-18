@@ -33,11 +33,6 @@ owner = admin
 version = 6.2.0
 modtime = 1423236165.068729000
 
-[views/malware_analysis]
-owner = admin
-version = 6.2.0
-modtime = 1424115812.432039000
-
 []
 access = read : [ * ], write : [ admin, power ]
 export = system
@@ -52,7 +47,7 @@ modtime = 1424111349.499343000
 [views/url_analysis]
 owner = admin
 version = 6.2.0
-modtime = 1424117046.472869000
+modtime = 1424281349.569089000
 
 [views/ioc_feed]
 owner = admin
@@ -67,4 +62,9 @@ modtime = 1424111290.029099000
 [views/malware_campaigns]
 owner = admin
 version = 6.2.0
-modtime = 1424222251.048549000
+modtime = 1424272459.076086000
+
+[views/network_analysis]
+owner = admin
+version = 6.2.0
+modtime = 1424280815.436022000

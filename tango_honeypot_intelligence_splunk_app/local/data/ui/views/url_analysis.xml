@@ -1,6 +1,6 @@
 <form>
-  <label>URL Analysis</label>
-  <description>Provides insights into the URL's seen in the Honeypot Logs.</description>
+  <label>File Analysis</label>
+  <description>Provides insights into the potential Malware downloaded on the Honeypots</description>
   <fieldset submitButton="false">
     <input type="time" token="field1" searchWhenChanged="true">
       <label></label>
@@ -12,7 +12,7 @@
   </fieldset>
   <row>
     <panel>
-      <title>Latest URL's Seen</title>
+      <title>Latest Attempted File Downloads</title>
       <table>
         <search>
           <query>index=honeypot urls=* session_hash=* NOT "*Search\\r\\nConnection*" | stats values(urls) AS urls, values(src_ip) AS src_ip, latest(_time) AS Time, values(host) AS "Sensor"  by session_hash | rename urls AS "URL", session_hash AS "Session Hash",  src_ip AS "Attacker IP", _time AS "Time" |  mvexpand URL | eval Time=strftime(Time,"%m/%d/%y %H:%M:%S") | eval urlhash=sha1(URL)| sort - Time | table "URL", urlhash, "Session Hash", "Attacker IP", "Sensor", "Time" | rename urlhash AS "URL Hash"</query>
@@ -29,10 +29,10 @@
   </row>
   <row>
     <panel>
-      <title>Top Domains Seen</title>
+      <title>Latest Files Downloaded</title>
       <table>
         <search>
-          <query>index=honeypot domain=* | rex field=domain "(?&lt;domain&gt;https?://[^/)|/&gt;]*)" |  top domain | eval domainhash=sha1(domain) | rename domain AS "Domain" count AS "Count" percent AS "Percent" | table "Domain", domainhash, "Count", "Percent" | rename domainhash AS "Domain Hash"</query>
+          <query>index=honeypot | transaction endswith=SHA=* maxevents=4 | stats values(malware_url) AS "Malware Downloaded", values(SHA) AS "File Hash (SHA-256)", values(src_ip) AS "Attacker IP", values(_time) AS "Time" by session_hash | table "Malware Downloaded"  "File Hash (SHA-256)" session_hash "Attacker IP" "Time" | rename session_hash AS "Session Hash" | eval Time=strftime(Time,"%m/%d/%y %H:%M:%S") | sort - Time</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -46,10 +46,10 @@
   </row>
   <row>
     <panel>
-      <title>Latest IP Addresses Seen</title>
+      <title>Top Filenames Seen</title>
       <table>
         <search>
-          <query>index=honeypot cmd=* ip=* | table ip, cmd, session_hash,src_ip, _time | rename ip AS "IP Address" session_hash AS "Session Hash" src_ip AS "Attacker IP", _time AS "Time", cmd AS "Command" | eval Time=strftime(Time,"%m/%d/%y %H:%M:%S") | sort - Time</query>
+          <query>index=honeypot urls=* NOT "Search\\r\\nConnection" | rex field=uri_file "(?&lt;uri_file&gt;[^\&gt;\)]*)" | top uri_file</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
