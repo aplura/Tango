@@ -1,0 +1,14 @@
+[kippo]
+REPORT-extract-malware = extract_malware
+REPORT-extract-session = extract_session_id
+REPORT-extract-ssh-version = extract_ssh_version
+REPORT-extract-key-algs = extract_key_algs
+REPORT-extract-ssh-env = extract_ssh_env
+REPORT-extract-cmd = extract_cmd
+REPORT-extract_src_ip = extract_src_ip
+REPORT-extract_pty_request = extract_pty_request
+REPORT-extract_password = extract_password
+REPORT-extract_SHA = extract_SHA_URL
+REPORT-extract_URLS = extract_urls
+REPORT-extract_domain = extract_domain
+REPORT-extract_IP = extract_IP

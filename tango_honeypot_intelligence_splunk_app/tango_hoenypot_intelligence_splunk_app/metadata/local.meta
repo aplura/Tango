@@ -1,0 +1,70 @@
+[app/ui]
+version = 6.2.0
+modtime = 1423169402.439322000
+
+[app/launcher]
+version = 6.2.0
+modtime = 1423169402.443881000
+
+[views/attacker_overview]
+owner = admin
+version = 6.2.0
+modtime = 1424111038.892264000
+
+[views/session_overview]
+owner = admin
+version = 6.2.0
+modtime = 1424126253.827078000
+
+[views/sensor_status]
+owner = admin
+version = 6.2.0
+modtime = 1423777145.834313000
+
+[eventtypes/login_success]
+export = system
+owner = admin
+version = 6.2.0
+modtime = 1423171995.804361000
+
+[eventtypes/login_attempt]
+export = system
+owner = admin
+version = 6.2.0
+modtime = 1423236165.068729000
+
+[views/malware_analysis]
+owner = admin
+version = 6.2.0
+modtime = 1424115812.432039000
+
+[]
+access = read : [ * ], write : [ admin, power ]
+export = system
+version = 6.2.0
+modtime = 1423258170.674361000
+
+[views/attacker_session_analysis]
+owner = admin
+version = 6.2.0
+modtime = 1424111349.499343000
+
+[views/url_analysis]
+owner = admin
+version = 6.2.0
+modtime = 1424117046.472869000
+
+[views/ioc_feed]
+owner = admin
+version = 6.2.0
+modtime = 1423591445.882254000
+
+[views/location_overview]
+owner = admin
+version = 6.2.0
+modtime = 1424111290.029099000
+
+[views/malware_campaigns]
+owner = admin
+version = 6.2.0
+modtime = 1424222251.048549000

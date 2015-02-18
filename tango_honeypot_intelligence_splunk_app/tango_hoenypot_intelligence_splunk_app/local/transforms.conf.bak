@@ -1,0 +1,28 @@
+[extract_malware]
+REGEX = SHA\ssum\s(?<SHA>.*)\sof\sURL\s(?<URL>https?://.*)\sin\sfile
+
+[extract_session_id]
+REGEX = HoneyPotTransport,(?<session_id>\d+),
+[extract_ssh_version]
+REGEX = Remote\sSSH\sversion:\s(?<ssh_version>.*)
+[extract_key_algs]
+REGEX = kex\salg,\skey\salg:(?<key_algorithm>.*)
+[extract_ssh_env]
+REGEX = request_env:\s(?<env>.*)
+[extract_cmd]
+REGEX = \sCMD:\s(?<cmd>[^\r|\n]*)
+[extract_src_ip]
+REGEX = HoneyPotTransport,\d+,(?<src_ip>\d+\.\d+\.\d+\.\d+)
+[extract_pty_request]
+REGEX = pty\srequest:\s(?<pty_request>.*)
+[extract_password]
+REGEX = login\sattempt\s\[(?<username>.*)\/(?<password>.*)\]\s
+[extract_urls]
+REGEX = (?<urls>https?://[^\s|\>|\)|\*|\"]*)
+[extract_SHA_URL]
+REGEX = HTTPPageDownloader,client]\s\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\sSHA\ssum\s(?<SHA>.*)\sof\sURL\s(?<URL>https?://.*)\sin\sfile
+[extract_domain]
+REGEX = (?<domain>https?://[^//]*)
+[extract_IP]
+REGEX = (?<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})
+SOURCE_KEY = cmd
