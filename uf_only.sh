@@ -1,6 +1,6 @@
 #!/bin/bash
 INSTALL_FILE="splunkforwarder-6.1.6-249101-Linux-x86_64.tgz"
-SPLUNK_INDEXER="omgpwnd.no-ip.biz:9997"
+SPLUNK_INDEXER="indexer:9997"
 HOST_NAME="hp-md-01"
 KIPPO_LOG_LOCATION='/opt/kippo/log/kippo.log.*'
 
@@ -42,6 +42,7 @@ mv tango_input /opt/splunkforwarder/etc/apps/
 cd /opt/splunkforwarder/etc/apps/tango_input/default
 sed -i "s/test/$HOST_NAME/" inputs.conf
 sed -i "s,/opt/kippo/log/kippo.log,${KIPPO_LOG_LOCATION}," inputs.conf
+sed -i "s/test/$SPLUNK_INDEXER/" outputs.conf
 
 chown -R splunk:splunk /opt/splunkforwarder
 /opt/splunkforwarder/bin/splunk restart
