@@ -1,0 +1,24 @@
+<!-- This view is the simplest search view. It includes a search bar and paged results.-->
+
+
+<view onunloadCancelJobs="False" autoCancelInterval="100">
+  <label>Sample no timeline</label>
+  
+  <!-- Top level navigation -->
+  <module name="AccountBar" layoutPanel="appHeader"/>
+  <module name="AppBar" layoutPanel="navigationHeader"/>
+  
+  <!-- This module renders the search box -->
+  <module name="SearchBar" layoutPanel="splSearchControls-inline">
+    <param name="useOwnSubmitButton">False</param>
+    <module name="SubmitButton">
+      <param name="allowSoftSubmit">True</param>
+	<!-- You need paginator to page through all the results from the search -->
+	<module name="Paginator" layoutPanel="mainSearchControls">
+	  <param name="entityName">events</param>
+	    <!-- This module renders the resulting events from your search -->
+	    <module name="EventsViewer" layoutPanel="mainSearchControls"/>
+  	</module>
+  </module>
+  </module>
+</view>

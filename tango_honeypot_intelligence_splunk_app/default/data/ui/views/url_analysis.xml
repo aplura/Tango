@@ -1,0 +1,64 @@
+<form>
+  <label>File Analysis</label>
+  <description>Provides insights into the potential Malware downloaded on the Honeypots</description>
+  <fieldset submitButton="false">
+    <input type="time" token="field1" searchWhenChanged="true">
+      <label></label>
+      <default>
+        <earliest>-12h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Latest Attempted File Downloads</title>
+      <table>
+        <search>
+          <query>index=honeypot urls=* session_hash=* NOT "*Search\\r\\nConnection*" | stats values(urls) AS urls, values(src_ip) AS src_ip, latest(_time) AS Time, values(host) AS "Sensor"  by session_hash | rename urls AS "URL", session_hash AS "Session Hash",  src_ip AS "Attacker IP", _time AS "Time" |  mvexpand URL | eval Time=strftime(Time,"%m/%d/%y %H:%M:%S") | eval urlhash=sha1(URL)| sort - Time | table "URL", urlhash, "Session Hash", "Attacker IP", "Sensor", "Time" | rename urlhash AS "URL Hash"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Latest Files Downloaded</title>
+      <table>
+        <search>
+          <query>index=honeypot | transaction endswith=SHA=* maxevents=4 | stats values(malware_url) AS "Malware Downloaded", values(SHA) AS "File Hash (SHA-256)", values(src_ip) AS "Attacker IP", values(_time) AS "Time" by session_hash | table "Malware Downloaded"  "File Hash (SHA-256)" session_hash "Attacker IP" "Time" | rename session_hash AS "Session Hash" | eval Time=strftime(Time,"%m/%d/%y %H:%M:%S") | sort - Time</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Top Filenames Seen</title>
+      <table>
+        <search>
+          <query>index=honeypot urls=* NOT "Search\\r\\nConnection" | rex field=uri_file "(?&lt;uri_file&gt;[^\&gt;\)]*)" | top uri_file</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+</form>
