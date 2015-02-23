@@ -17,26 +17,16 @@ if [ -f /etc/debian_version ]; then
     pip install pycrypto
     pip install service_identity
     pip install ipwhois
+    pip install twisted
 elif [ -f /etc/redhat-release ]; then
     yum -y update
     yum -y install wget python-devel python-zope-interface unzip git
     # Development Tools isn't needed, so, we need to figure out the packages we need
     yum -y group install "Development Tools"
-    easy_install pycrypto pyasn1
+    easy_install pycrypto pyasn1 twisted
 else
     DISTRO=$(uname -s)
 fi
-
-# Grabbing Twisted Source
-cd /tmp
-wget https://pypi.python.org/packages/source/T/Twisted/Twisted-15.0.0.tar.bz2
-tar -xvf Twisted-15.0.0.tar.bz2
-cd Twisted-15.0.0/twisted/python
-# Adding our custom time format to include microseconds
-sed "s/%d-%02d-%02d %02d:%02d:%02d%s%02d%02d/%d-%02d-%02d %02d:%02d:%02d.%02d %s%02d%02d" log.py
-sed "s/when.hour, when.minute, when.second,/when.hour, when.minute, when.second,when.microsecond" log.py
-cd ../..
-python setup.py install
 
 # Installing Kippo Honeypot
 cd /opt
@@ -46,7 +36,7 @@ cd kippo
 cp kippo.cfg.dist kippo.cfg
 # Changing the Honeypot name as well as changing the port that Kippo listens on
 sed -i "s/svr03/$KIPPO_HOST/" kippo.cfg
-sed -i "s/2222/22/" kippo.cfg
+sed -i "s/#listen_port = 2222/listen_port = 22/" kippo.cfg
 
 # Changing the port that SSH listens on to the variable set above
 if [ -f /etc/debian_version ]; then
@@ -90,7 +80,6 @@ cd Tango
 mv tango_input /opt/splunkforwarder/etc/apps/
 cd /opt/splunkforwarder/etc/apps/tango_input/default
 sed -i "s/test/$HOST_NAME/" inputs.conf
-sed -i "s,/opt/kippo/log/kippo.log,${KIPPO_LOG_LOCATION}," inputs.conf
 sed -i "s/test/$SPLUNK_INDEXER/" outputs.conf
 
 chown -R splunk:splunk /opt/splunkforwarder
