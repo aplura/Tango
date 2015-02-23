@@ -1,0 +1,90 @@
+<form>
+  <label>Session Playlog</label>
+  <description>Displays commands entered during each session as well as the raw logs from each session</description>
+  <fieldset submitButton="false">
+    <input type="time" token="field1" searchWhenChanged="true">
+      <label></label>
+      <default>
+        <earliest>-12h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Sessions with Interaction</title>
+      <input type="dropdown" token="sensor" searchWhenChanged="true">
+        <label>Sensor</label>
+        <search>
+          <query>sourcetype=kippojson command=* | table host | dedup host</query>
+        </search>
+        <fieldForLabel>host</fieldForLabel>
+        <fieldForValue>host</fieldForValue>
+        <choice value="*">All</choice>
+        <default>*</default>
+      </input>
+      <table>
+        <search>
+          <query>sourcetype=kippojson host=$sensor$  [ search sourcetype=kippojson command=* | stats count by session | fields session ] | transaction session | iplocation prefix=iploc_ allfields=true src_ip | eval src_ip_Country = if(isnull(iploc_Country),"Unknown",iploc_Country) | stats earliest(_time) as Time, values(src_ip) AS "Attacker IP", values(src_ip_Country) AS "Attacker Country", values(host) as "Sensor", count(command) as msgcount by session | where msgcount &gt; 0 | eval Time=strftime(Time,"%m/%d/%y %H:%M:%S") | rename msgcount AS "Message Count" session AS "Session" | sort - Time</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Commands Entered During Session</title>
+      <input type="dropdown" token="ipaddress" searchWhenChanged="true">
+        <label>IP Address</label>
+        <search>
+          <query>sourcetype=kippojson [ search sourcetype=kippojson command=* | stats count by session | fields session ] | transaction session |  stats values(src_ip) as src_ip, count(command) as msgcount by session | where msgcount &gt; 0 | fields - msgcount, session | dedup src_ip | sort + src_ip</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <fieldForLabel>src_ip</fieldForLabel>
+        <fieldForValue>src_ip</fieldForValue>
+      </input>
+      <input type="dropdown" token="field2" searchWhenChanged="true">
+        <label>Session</label>
+        <search>
+          <query>sourcetype=kippojson [search sourcetype=kippojson command=* | table session | dedup session ] | transaction session | search src_ip = $ipaddress$ | table session | dedup session</query>
+        </search>
+        <fieldForLabel>session</fieldForLabel>
+        <fieldForValue>session</fieldForValue>
+      </input>
+      <table>
+        <search>
+          <query>sourcetype=kippojson session=$field2$ command=* | table command, timestamp | sort + timestamp | rename command AS "Command Entered" timestamp AS "Timestamp"</query>
+          <earliest>$field1.earliest$</earliest>
+          <latest>$field1.latest$</latest>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Raw Log</title>
+      <table>
+        <search>
+          <query>sourcetype=kippojson session=$field2$  | table _raw | sort + _time | rename _raw AS "Raw Logs"</query>
+        </search>
+        <option name="wrap">true</option>
+        <option name="rowNumbers">false</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+</form>
