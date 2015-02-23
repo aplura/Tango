@@ -16,10 +16,12 @@ Copy sensor.sh to the server you wish to install Kippo and Splunk on.
 
 Before running the sensor.sh script you will need to edit the script and change the following:
 
-- SPLUNK_INDEXER="" - Set this to your Splunk Indexer/Heavy Forwarder
-- HOST_NAME="hp-md-01" - You can change this if you would like, this is the name of the Tango Sensor that will be sent into Splunk.
-- SSH_PORT="1337" - This is the new SSH port that you can access the Tango Sensor on, since in the script we enable port forwarding on port 22 to Kippo's port 2222
-- KIPPO_HOST="dev01" - This can be changed if you would like to change the Kippo honeypot name. This can also be changed in kippo.cfg
+Variable | Purpose
+--- | ---
+SPLUNK_INDEXER | Set this to your Splunk Indexer/Intermediate Forwarder
+HOST_NAME | This is the hostname for the sensor that will appear in Splunk
+SSH_PORT | You will need to SSH to the sensor on this port
+KIPPO_HOST | *optional* This is the hostname of the honeypot attackers will see
 
 There are some other options you can change in /opt/kippo/kippo.cfg if you choose, however, some of these will break the forwarding of logs (such as changing the listening port set to 2222), however, there are some extra modules, such as mysql or xmpp logging you can enable if you choose.
 
@@ -35,6 +37,8 @@ chmod +x sensor.sh
 
 The script will install the required packages based on the OS, then install Kippo, and lastly, install the Splunk Universal Forwarder. 
 
+**Please note that this script communicates with [icanhazip.com](www.icanhazip.com) to grab the external IP Address of the sensor. This is useful information for the sensor management portion of the app. Please feel free to remove if you'd rather not communicate with that site.** 
+
 ## Sensor Installation (Splunk UF Only)
 
 If you already have Kippo honeypots deployed and wish to start analyzing their logs in the Tango Honeypot Intelligence Splunk App, you can run the uf_only.sh script, which will install the Splunk UF on your host, and configure the inputs and outputs necessary to start viewing your logs.
@@ -48,6 +52,8 @@ su root
 chmod +x uf_only.sh
 ./uf_only.sh
 ```
+
+**Please note that this script communicates with [icanhazip.com](www.icanhazip.com) to grab the external IP Address of the sensor. This is useful information for the sensor management portion of the app. Please feel free to remove if you'd rather not communicate with that site.** 
 
 ## Server Installation
 
