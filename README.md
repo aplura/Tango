@@ -88,11 +88,11 @@ Below we will go through each section and describe some of the data available in
 
 ### Attack Analysis
 
-#### Attack Overview
+##### Attack Overview
 
 We previously covered this above. Contains basic attack information.
 
-#### Session Playlog
+##### Session Playlog
 
 This is one of the most vital pieces of the whole app, since it shows you all the commands entered during an attacker's session. Starting at the top, you can select the timeframe of attacks you wish to see (default is 12 hours). Below the time selector is a panel, which includes a sensor dropdown to select a sensor of interest if you choose, with the applicable sessions below that. You can sort by any of the available headers, such as "Message Count" or "Time", etc., which can help narrow down what sessions you wish to view.
 
@@ -100,11 +100,11 @@ Once you have identified a particular session of interest, you can view the comm
 
 Below that panel is a complimentary panel which will display the raw logs of the session, which may provide additional information about the session in addition to the commands.
 
-#### Session Analysis
+##### Session Analysis
 
 This series of dashboards contains some analytical information, to include the % of sessions with interaction, the various SSH versions seen, some environment details extracted by the session, and a Human vs. Bot Identification dashboard.
 
-#### Location Overview
+##### Location Overview
 
 In this section, you are able to see various geographical data related to each session and attacker. There are currently three dashboards available:
 
@@ -114,13 +114,13 @@ In this section, you are able to see various geographical data related to each s
 
 We also include a map which includes the location of attackers seen.
 
-#### Username/Password Analysis
+##### Username/Password Analysis
 
 Currently, this dashboard contains the top usernames and passwords seen being attempted by the attackers. However, we will continue to update this with more analytics related to this.
 
 ### Malware Analysis
 
-#### File Analysis
+##### File Analysis
 
 Starting at the top of this page, you can see the # of files downloaded over the course of 12 hours (or whatever timeframe you selected above).
 
@@ -143,7 +143,7 @@ Lastly, is a panel which you are able to look up a particular SHA256 hash seen p
 
 Please note that the VirusTotal API is limited to 4 requests per minute. With that being said, you can use this panel to quickly lookup the file hashes seen by in your sessions.
 
-#### Malware Campaigns
+##### Malware Campaigns
 
 This set of reports give you information on possible campaigns associated with your sessions. Currently this includes:
 
