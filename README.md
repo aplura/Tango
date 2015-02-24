@@ -7,6 +7,8 @@ Tango is a tool which helps organizations deploy honeypots and enables the tranm
 <p align="center">
 <img src="http://f.cl.ly/items/2w113m143M2U0x0P0B2Q/Slide1.png"></p>
 
+## Before You Begin
+
 There are a few things that should be brought up before we begin the installation:
 
 - When you deploy the input app on a sensor, the app will communicate with the website, [icanhazip.com](www.icanhazip.com) to get the external IP address of the sensor. This is useful information for the sensor management portion of the app. Please feel free to remove if you'd rather not communicate with that site. Please note that if you do not use this, a lot of the "Sensor Management" fields will be blank.
