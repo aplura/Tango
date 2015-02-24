@@ -150,6 +150,7 @@ This set of reports give you information on possible campaigns associated with y
 - Potential Malware Campaigns (By URL)
 - Potential Malware Campaigns (By Domain)
 - Potential Malware Campaigns (By Filename)
+- Potential Malware Campaigns (By SHA Hash)
 
 This section will continue to be developed to include other possible campaign attribution by looking at other TTP's associated with each session. This could include commands entered during each session, terminal variables (size, language, SSH keys, etc.). For now, we can see the URL's, Domain's and Filenames that have been seen being used by multiple attackers.
 
