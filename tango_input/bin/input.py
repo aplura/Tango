@@ -1,7 +1,7 @@
 import requests
 from ipwhois import IPWhois
 
-r = requests.get('http://icanhazip.com')
+r = requests.get('http://ipv4.icanhazip.com')
 
 ip = r.text
 
