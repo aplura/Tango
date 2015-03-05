@@ -13,9 +13,9 @@ useradd kippo
 if [ -f /etc/debian_version ]; then
     apt-get -y update
     apt-get -y install python-dev python-openssl python-pyasn1 authbind git python-pip libcurl4-gnutls-dev libssl-dev
-    pip install pycurl
     pip install pycrypto
     pip install service_identity
+    pip install requests
     pip install ipwhois
     pip install twisted
 elif [ -f /etc/redhat-release ]; then
@@ -23,7 +23,7 @@ elif [ -f /etc/redhat-release ]; then
     yum -y install wget python-devel python-zope-interface unzip git
     # Development Tools isn't needed, so, we need to figure out the packages we need
     yum -y group install "Development Tools"
-    easy_install pycrypto pyasn1 twisted
+    easy_install pycrypto pyasn1 twisted requests
 else
     DISTRO=$(uname -s)
 fi
