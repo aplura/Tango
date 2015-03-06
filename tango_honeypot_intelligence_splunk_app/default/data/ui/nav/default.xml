@@ -1,23 +1,23 @@
 <nav search_view="search" color="#131B23">
   <collection label="Attack Analysis">
   <view name="attacker_overview" default="true" />
-  <a href="/app/tango/session_overview">Session Playlog</a>
-  <a href="/app/tango/attacker_session_analysis">Session Analysis</a>
-  <a href="/app/tango/location_overview">Location Overview</a>
-  <a href="/app/tango/password_analysis">Username/Password Analysis</a>
+  <a href="/app/tango_honeypot_intelligence_splunk_app/session_overview">Session Playlog</a>
+  <a href="/app/tango_honeypot_intelligence_splunk_app/attacker_session_analysis">Session Analysis</a>
+  <a href="/app/tango_honeypot_intelligence_splunk_app/location_overview">Location Overview</a>
+  <a href="/app/tango_honeypot_intelligence_splunk_app/password_analysis">Username/Password Analysis</a>
   </collection>
   <collection label="Malware Analysis">
-  <a href="/app/tango/url_analysis">File Analysis</a>
-  <a href="/app/tango/malware_campaigns">Malware Campaigns</a>
+  <a href="/app/tango_honeypot_intelligence_splunk_app/url_analysis">File Analysis</a>
+  <a href="/app/tango_honeypot_intelligence_splunk_app/malware_campaigns">Malware Campaigns</a>
   </collection>
   <collection label="Network Analysis">
-  <a href="/app/tango/network_analysis">Network Analysis</a>
+  <a href="/app/tango_honeypot_intelligence_splunk_app/network_analysis">Network Analysis</a>
   </collection>
   <collection label="Sensor Management">
-  <a href="/app/tango/sensor_status">Sensor Status</a>
+  <a href="/app/tango_honeypot_intelligence_splunk_app/sensor_status">Sensor Status</a>
   </collection>
   <collection label="Threat Feed">
-  <a href="/app/tango/ioc_feed">Threat Feed</a>
+  <a href="/app/tango_honeypot_intelligence_splunk_app/ioc_feed">Threat Feed</a>
   </collection>
   <view name="search" />
 </nav>
