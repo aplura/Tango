@@ -27,7 +27,7 @@
       <title>Updated Sensor Information</title>
       <table>
         <search>
-          <query>|stats count | eval "Sensor Name"="$sensor$" | eval owner="$owner$" | eval owner_email="$owner_email$" | eval comment="$comment$" | fields - count  | inputlookup sensors.csv append=true | stats last(ASN) AS "ASN" last("ASN Country") AS "ASN Country" last("Last Active") AS "Last Active" last("Network Name") AS "Network Name"  last("Network Range") AS "Network Range" last("Sensor IP Address") AS "Sensor IP Address" last("owner") AS "Owner" last("owner_email") AS "Owner Email" last(comment) AS "Comment" by "Sensor Name" | outputlookup sensors.csv</query>
+          <query>|stats count | eval "Sensor Name"="$sensor$" | eval "Owner"="$owner$"  | eval "Owner Email"="$owner_email$" | eval Comment="$comment$" | fields - count | inputlookup sensors.csv append=true |  stats first(ASN) AS "ASN" first("ASN Country") AS "ASN Country" first("Last Active") AS "Last Active" first("Network Name") AS "Network Name"  first("Network Range") AS "Network Range" first("Sensor IP Address") AS "Sensor IP Address" first("Owner") AS "Owner" first("Owner Email") AS "Owner Email" first(Comment) AS "Comment" by "Sensor Name" | outputlookup sensors.csv</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>

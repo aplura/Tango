@@ -1,4 +1,4 @@
-<form>
+<form stylesheet="single_trend.css">
   <label>Location Overview</label>
   <fieldset submitButton="false">
     <input type="time" token="field1" searchWhenChanged="true">
@@ -14,7 +14,7 @@
       <title>Top Countries w/ Login</title>
       <chart>
         <search>
-          <query>index=honeypot eventtype=login_success | dedup src_ip | iplocation prefix=iploc_ allfields=true src_ip | top iploc_Country limit=5</query>
+          <query>sourcetype=kippojson | transaction session | search eventtype=login_success | iplocation prefix=iploc_ allfields=true src_ip | top iploc_Country limit=5</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -39,13 +39,15 @@
         <option name="charting.layout.splitSeries">0</option>
         <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
         <option name="charting.legend.placement">right</option>
+        <option name="charting.seriesColors">[0x556270,0x4ECDC4,0xC7F464,0xFF6B6B,0xC44D58]</option>
+      
       </chart>
     </panel>
     <panel>
       <title>Top Country Scanning</title>
       <chart>
         <search>
-          <query>index=honeypot | dedup src_ip | iplocation prefix=iploc_ allfields=true src_ip | top iploc_Country limit=5</query>
+          <query>sourcetype=kippojson | transaction session  | iplocation prefix=iploc_ allfields=true src_ip | top iploc_Country limit=5</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -70,13 +72,14 @@
         <option name="charting.layout.splitSeries">0</option>
         <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
         <option name="charting.legend.placement">right</option>
+            <option name="charting.seriesColors">[0x556270,0x4ECDC4,0xC7F464,0xFF6B6B,0xC44D58]</option>
       </chart>
     </panel>
     <panel>
       <title>Top Sensors Attacked</title>
       <chart>
         <search>
-          <query>index=honeypot eventtype=login_success | stats count by host</query>
+          <query>sourcetype=kippojson eventtype=login_success | stats count by host | head 5</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -101,6 +104,9 @@
         <option name="charting.layout.splitSeries">0</option>
         <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
         <option name="charting.legend.placement">right</option>
+        <option name="charting.seriesColors">
+         [0x556270,0x4ECDC4,0xC7F464,0xFF6B6B,0xC44D58]
+       </option>
       </chart>
     </panel>
   </row>
@@ -109,7 +115,7 @@
       <title>Attacker Location Map</title>
       <map>
         <search>
-          <query>index=honeypot | dedup src_ip | iplocation prefix=iploc_ allfields=true src_ip | geostats latfield=iploc_lat longfield=iploc_lon count by src_ip</query>
+          <query>sourcetype=kippojson | stats count by src_ip | fields src_ip | iplocation prefix=iploc_ allfields=true src_ip | geostats latfield=iploc_lat longfield=iploc_lon count by src_ip</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -123,6 +129,7 @@
         <option name="mapping.tileLayer.maxZoom">7</option>
         <option name="mapping.tileLayer.minZoom">0</option>
         <option name="drilldown">all</option>
+        <option name="charting.seriesColors">[0x556270,0x4ECDC4,0xC7F464,0xFF6B6B,0xC44D58]</option>
       </map>
     </panel>
   </row>

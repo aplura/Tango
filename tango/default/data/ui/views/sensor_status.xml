@@ -1,12 +1,12 @@
-<dashboard>
+<dashboard stylesheet="single_trend.css">
   <label>Sensor Status</label>
   <description>Provides information on each Tango Sensor</description>
   <row>
     <panel>
-      <title>Sensor Status</title>
+      <title>Sensor Information</title>
       <table>
         <search>
-          <query>index=honeypot  |  stats latest(_time) as Time, latest(sensorIP) as Sensor, latest(ASN) AS "ASN", latest(ASN_Country) AS "ASN Country", latest(description) AS "Network Name", latest(network_range) AS "Network Range" by host | rename host as "Sensor Name" | eval Time=strftime(Time, "%m/%d/%y %H:%M:%S") | rename Time as "Last Active" Sensor AS "Sensor IP Address"  | sort - "Last Active"</query>
+          <query>| inputlookup sensors.csv | stats first(ASN) AS "ASN" first("ASN Country") AS "Country" first("Last Active") AS Time first("Network Name") AS "Network Name" first("Sensor IP Address") AS "Sensor IP Address" first("Owner") AS "Owner" first("Owner Email") AS "Owner Email" first("Comment") AS "Comment" by "Sensor Name" | eval Time=strftime(Time,"%m/%d/%y %H:%M:%S") | rename Time as "Last Active"</query>
           <earliest>-24h@h</earliest>
           <latest>now</latest>
         </search>
