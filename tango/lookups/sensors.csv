@@ -1,13 +1,2 @@
 "Sensor Name",ASN,"ASN Country","Last Active","Network Name","Network Range","Sensor IP Address",Owner,"Owner Email",Comment
-"hp-amsterdam-noord-holland-01",202018,GB,1425679034,DOPI1,"128.199.0.0","128.199.50.182",,,
-"hp-atlanta-ga-01",3595,US,1425602115,"LINODE-US","45.56.64.0","45.56.115.190",,,
-"hp-belair-md-01",701,US,1425662270,"VIS-BLOCK","71.173.96.0","71.179.130.35","Brian Warehime","brian@nullsecure.org",
-"hp-datx",15830,GB,1425630146,"EU-LINODE-201100201","2a01:7e00::/32","2a01:7e00::f03c:91ff:fe33:be32",,,
-"hp-frca",6939,US,1425665271,"LINODE-US","23.239.0.0","23.239.7.111",,,
-"hp-loen",15830,GB,1425668119,"EU-LINODE-201100201","2a01:7e00::/32","2a01:7e00::f03c:91ff:fe33:be32",,,
-"hp-london-england-02",202109,EU,1425679015,"DIGITALOCEAN-LON-1","178.62.0.0","178.62.111.105",,,
-"hp-los_angeles_california-01",62639,US,1425660160,CRISSIC,"167.160.160.0","167.160.168.44","Brian Warehime","brian@nullsecure.org","Crissic VPS"
-"hp-ontario-canada-01",55053,CA,1425660658,"CLOUD-33","167.88.32.0","167.88.41.179","Brian Warehime","brian@nullsecure.org","Cloud at Cost VPS"
-"hp-ontario-canada-09",55053,CA,1425603269,"CLOUD-52","168.235.144.0","168.235.155.22",,,
-"hp-ontario-canada-10",55053,CA,1425604070,"CLOUD-68","104.167.96.0","104.167.116.172",,,
-"hp-tojp",2516,SG,1425667983,"LINODE-AP","2400:8900::/31","2400:8900::f03c:91ff:fe33:fcdc",,,
+,,,,,,,,,

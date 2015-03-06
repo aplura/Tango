@@ -8,7 +8,7 @@ try:
 	url = "https://www.virustotal.com/vtapi/v2/file/report"
 	params = {
     		"resource": sha,
-    		"apikey": "149a08a494a4db323460180a09312b2f34e529230496eccfa868c01dead5b709"
+    		"apikey": "<enter your API key here>"
    	 }
 	r = requests.get(url, params=params, verify=False)
 	j = json.loads(r.text)
