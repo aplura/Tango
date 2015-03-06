@@ -1,0 +1,23 @@
+.single-trend {
+    position: relative;
+    top: -15px;
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+}
+.single-trend i {
+    font-size: 28px;
+    vertical-align: text-bottom;
+}
+.single-trend.nochange, .single-trend.nochange i {
+    font-size: 14px;
+}
+.single-trend.increase {
+    color: #F03B4E;
+}
+.single-trend.decrease {
+    color: #40EBBB;
+}
+.table .table, .table-striped>tbody>tr>td {
+    color: #131B23;
+}

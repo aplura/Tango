@@ -1,0 +1,49 @@
+<form>
+  <label>Edit Sensor</label>
+  <description>In this dashboard, you are able to add in additional sensor information, such as the owner and owners email.</description>
+  <fieldset submitButton="true">
+    <input type="dropdown" token="sensor">
+      <label>Sensor</label>
+      <search>
+        <query>sourcetype=sensor | stats count by host | fields - count</query>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </search>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+    </input>
+    <input type="text" token="owner">
+      <label>Owner</label>
+    </input>
+    <input type="text" token="owner_email">
+      <label>Owner Email</label>
+    </input>
+    <input type="text" token="comment">
+      <label>Comment</label>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Updated Sensor Information</title>
+      <table>
+        <search>
+          <query>|stats count | eval "Sensor Name"="$sensor$" | eval owner="$owner$" | eval owner_email="$owner_email$" | eval comment="$comment$" | fields - count  | inputlookup sensors.csv append=true | stats last(ASN) AS "ASN" last("ASN Country") AS "ASN Country" last("Last Active") AS "Last Active" last("Network Name") AS "Network Name"  last("Network Range") AS "Network Range" last("Sensor IP Address") AS "Sensor IP Address" last("owner") AS "Owner" last("owner_email") AS "Owner Email" last(comment) AS "Comment" by "Sensor Name" | outputlookup sensors.csv</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="list.drilldown">full</option>
+        <option name="list.wrap">1</option>
+        <option name="maxLines">5</option>
+        <option name="raw.drilldown">full</option>
+        <option name="rowNumbers">false</option>
+        <option name="table.drilldown">all</option>
+        <option name="table.wrap">1</option>
+        <option name="type">list</option>
+        <option name="wrap">true</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="count">10</option>
+      </table>
+    </panel>
+  </row>
+</form>

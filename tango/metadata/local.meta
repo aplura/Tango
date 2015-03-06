@@ -1,0 +1,112 @@
+[app/ui]
+version = 6.2.0
+modtime = 1423169402.439322000
+
+[app/launcher]
+version = 6.2.0
+modtime = 1423169402.443881000
+
+[views/attacker_overview]
+owner = admin
+version = 6.2.0
+modtime = 1425586526.314864000
+
+[views/session_overview]
+owner = admin
+version = 6.2.0
+modtime = 1425325356.368723000
+
+[views/sensor_status]
+owner = admin
+version = 6.2.0
+modtime = 1425679641.092727000
+
+[eventtypes/login_success]
+export = system
+owner = admin
+version = 6.2.0
+modtime = 1423171995.804361000
+
+[eventtypes/login_attempt]
+export = system
+owner = admin
+version = 6.2.0
+modtime = 1423236165.068729000
+
+[]
+access = read : [ * ], write : [ admin, power ]
+export = system
+version = 6.2.0
+modtime = 1423258170.674361000
+
+[views/attacker_session_analysis]
+owner = admin
+version = 6.2.0
+modtime = 1425316905.735096000
+
+[views/ioc_feed]
+owner = admin
+version = 6.2.0
+modtime = 1425334513.209830000
+
+[views/location_overview]
+owner = admin
+version = 6.2.0
+modtime = 1425334298.953224000
+
+[views/malware_campaigns]
+owner = admin
+version = 6.2.0
+modtime = 1425333869.087322000
+
+[views/network_analysis]
+owner = admin
+version = 6.2.0
+modtime = 1425323073.766801000
+
+[lookups/virustotal.csv]
+export = system
+owner = admin
+version = 6.2.0
+modtime = 1424468625.545050000
+
+[savedsearches/virustotal_lookup]
+export = none
+owner = admin
+version = 6.2.0
+modtime = 1424553341.196264000
+
+[views/password_analysis]
+export = system
+owner = admin
+version = 6.2.0
+modtime = 1425322871.182431000
+
+[views/file_analysis]
+owner = admin
+version = 6.2.0
+modtime = 1425322895.887983000
+
+[views/attacker_profile]
+owner = admin
+version = 6.2.0
+modtime = 1425317059.790893000
+
+[lookups/sensors.csv]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.2.0
+modtime = 1425657749.932432000
+
+[views/edit_sensor]
+owner = admin
+version = 6.2.2
+modtime = 1425681837.113060000
+
+[savedsearches/Populate_sensor_lookup]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 6.2.0
+modtime = 1425678012.065615000
