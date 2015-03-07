@@ -13,7 +13,7 @@ There are a few things that should be brought up before we begin the installatio
 
 - When you deploy the input app on a sensor, the app will communicate with the website, [icanhazip.com](www.icanhazip.com) to get the external IP address of the sensor. This is useful information for the sensor management portion of the app. Please feel free to remove if you'd rather not communicate with that site. Please note that if you do not use this, a lot of the "Sensor Management" fields will be blank.
 - The Tango Honeypot Intelligence Splunk App is built to use JSON formatted data from Kippo, this was made available in the fork maintained by Michel Oosterhof, which can be found on his [github](https://github.com/micheloosterhof/kippo). He recently added this feature, so you will need to grab the latest copy for this app to work properly. 
-- You will need to add your own VirusTotal API key to the Splunk app, which can be configured at /opt/splunk/etc/apps/tango_honeypot_intelligence_app/bin/vt.py  The API is free to obtain, you will just need to follow the procedures found on their website to receive one. Please note that you are limited to 4 requests per minute, so if you attempt to do more than that, you will not receive any information.
+- You will need to add your own VirusTotal API key to the Splunk app, which can be configured at /opt/splunk/etc/apps/tango/bin/vt.py  The API is free to obtain, you will just need to follow the procedures found on their website to receive one. Please note that you are limited to 4 requests per minute, so if you attempt to do more than that, you will not receive any information.
 
 ## Installation
 
@@ -67,7 +67,7 @@ In order to view the logs you are sending from Kippo, you will need to install S
 - Download Splunk Enterprise from Splunk
 - Copy the Tango Honeypot Intelligence for Splunk App into $SPLUNK_HOME/etc/apps/
 - Create a Splunk listener on port 9997 (It's not required to be on 9997, however, the scripts are configured to use that port, so, if you change the port, change it everywhere)
-- Add your VirusTotal API key to /opt/splunk/etc/apps/tango_honeypot_intelligence_app/bin/vt.py
+- Add your VirusTotal API key to /opt/splunk/etc/apps/tango/bin/vt.py
 - Restart Splunk
 
 Once in Splunk, you can start using the Tango app to analyze your Honeypot logs.
