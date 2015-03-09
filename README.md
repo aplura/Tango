@@ -1,5 +1,5 @@
 <p align="center">
-<img src="http://i.imgur.com/GwPM5SZ.png"></p>
+<img src="http://i.imgur.com/qlVEyIB.png"></p>
 
 ## About
 Tango is a tool which helps organizations deploy honeypots and enables the tranmission of their logs back to you via Splunk, so you can analyze and track what is happening on your honeypots. Tango provides scripts which allow you to install everything you need on a brand-new system, or if you have existing honeypots that you want to start collecting logs from. By running the scripts provided, you can easily and rapidly deploy as many honeypots as you would like without worrying about the administration and management, so you can focus on the analysis and reacting to the threats.
