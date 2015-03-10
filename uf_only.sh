@@ -1,5 +1,5 @@
 #!/bin/bash
-INSTALL_FILE="splunkforwarder-6.1.6-249101-Linux-x86_64.tgz"
+INSTALL_FILE="splunkforwarder.tgz"
 SPLUNK_INDEXER="indexer:9997"
 HOST_NAME="hp-md-01"
 KIPPO_LOG_LOCATION='/opt/kippo/log/kippolog.json.*'
@@ -28,7 +28,11 @@ fi
 mkdir /home/splunk
 chown -R splunk:splunk /home/splunk
 cd /opt
-wget -O splunkforwarder-6.1.6-249101-Linux-x86_64.tgz 'http://www.splunk.com/page/download_track?file=6.1.6/universalforwarder/linux/splunkforwarder-6.1.6-249101-Linux-x86_64.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=x86_64&version=6.1.6&product=splunk&typed=release'
+if [ $(uname -m) == 'x86_64' ]; then
+    wget -O ${INSTALL_FILE} 'http://www.splunk.com/page/download_track?file=6.2.2/universalforwarder/linux/splunkforwarder-6.2.2-255606-Linux-x86_64.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=x86_64&version=6.2.2&product=splunk&typed=release'
+else
+    wget -O ${INSTALL_FILE} 'http://www.splunk.com/page/download_track?file=6.2.2/universalforwarder/linux/splunkforwarder-6.2.2-255606-Linux-i686.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=i686&version=6.2.2&product=splunk&typed=release'
+fi
 tar -xzf $INSTALL_FILE
 chown -R splunk:splunk splunkforwarder
 su splunk -c "/opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --auto-ports --no-prompt"
