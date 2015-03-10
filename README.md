@@ -1,5 +1,5 @@
 <p align="center">
-<img src="http://i.imgur.com/GwPM5SZ.png"></p>
+<img src="http://i.imgur.com/r8Hpjvj.png"></p>
 
 ## About
 Tango is a set of scripts and Splunk apps which help organizations and users quickly and easily deploy honeypots and then view the data and analysis of the attacker sessions. There are two scripts provided which facilitate the installation of the honeypots and/or Splunk Universal Forwarder. One of the scripts `uf_only.sh` will install the Splunk Universal Forwarder and install the necessary input and output configuration files. The other script `sensor.sh` will install the Splunk Universal Forwarder along with the Kippo honeypot required for the Tango Honeypot Intelligence app to work.
