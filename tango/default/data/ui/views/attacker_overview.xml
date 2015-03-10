@@ -25,18 +25,28 @@
   </form>
   <row>
     <panel>
-      <title>Overview</title>
+      <title>Daily Overview (vs. Yesterday)</title>
       <single>
         <title>Successful Logins</title>
-        <searchString>sourcetype=kippojson eventtype=login_attempt | timechart span=24h count | reverse</searchString>
-        <earliestTime>-48h</earliestTime>
+        <search>
+          <query>sourcetype=kippojson eventtype=login_success | timechart span=24h count | reverse</query>
+          <earliest>-48h</earliest>
+          <latest></latest>
+        </search>
         <option name="field">count</option>
+        <option name="linkView">search</option>
+        <option name="drilldown">none</option>
       </single>
       <single>
         <title>Failed Logins</title>
-        <searchString>sourcetype=kippojson eventtype=login_success | timechart span=24h count | reverse</searchString>
-        <earliestTime>-48h</earliestTime>
+        <search>
+          <query>sourcetype=kippojson eventtype=login_attempt | timechart span=24h count | reverse</query>
+          <earliest>-48h</earliest>
+          <latest></latest>
+        </search>
         <option name="field">count</option>
+        <option name="linkView">search</option>
+        <option name="drilldown">none</option>
       </single>
       <single>
         <title>Distinct IP Addresses</title>
@@ -61,7 +71,7 @@
       <title>Login Attempts vs Successes</title>
       <chart>
         <search>
-          <query>sourcetype=kippojson | timechart count by eventtype usenull=F</query>
+          <query>sourcetype=kippojson | timechart count by eventtype usenull=F | rename login_attempt AS "Login Attempt" login_success AS "Login Success"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>

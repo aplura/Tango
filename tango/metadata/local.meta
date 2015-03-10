@@ -9,17 +9,17 @@ modtime = 1423169402.443881000
 [views/attacker_overview]
 owner = admin
 version = 6.2.0
-modtime = 1425586526.314864000
+modtime = 1425832786.986144000
 
 [views/session_overview]
 owner = admin
 version = 6.2.0
-modtime = 1425325356.368723000
+modtime = 1425997396.044104000
 
 [views/sensor_status]
 owner = admin
 version = 6.2.0
-modtime = 1425679641.092727000
+modtime = 1425907244.237153000
 
 [eventtypes/login_success]
 export = system
@@ -52,7 +52,7 @@ modtime = 1425334513.209830000
 [views/location_overview]
 owner = admin
 version = 6.2.0
-modtime = 1425334298.953224000
+modtime = 1425755103.852408000
 
 [views/malware_campaigns]
 owner = admin
@@ -70,12 +70,6 @@ owner = admin
 version = 6.2.0
 modtime = 1424468625.545050000
 
-[savedsearches/virustotal_lookup]
-export = none
-owner = admin
-version = 6.2.0
-modtime = 1424553341.196264000
-
 [views/password_analysis]
 export = system
 owner = admin
@@ -90,7 +84,7 @@ modtime = 1425322895.887983000
 [views/attacker_profile]
 owner = admin
 version = 6.2.0
-modtime = 1425317059.790893000
+modtime = 1425997569.192176000
 
 [lookups/sensors.csv]
 access = read : [ * ], write : [ admin ]
@@ -109,4 +103,4 @@ access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
 version = 6.2.0
-modtime = 1425678012.065615000
+modtime = 1425755740.980648000

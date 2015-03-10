@@ -12,10 +12,12 @@
   <row>
     <panel>
       <title>Sessions with Interaction</title>
-      <input type="dropdown" token="sensor">
+      <input type="dropdown" token="sensor" searchWhenChanged="true">
         <label>Sensor</label>
         <search>
           <query>sourcetype=kippojson command=* | table host | dedup host</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
         </search>
         <fieldForLabel>host</fieldForLabel>
         <fieldForValue>host</fieldForValue>
@@ -125,8 +127,9 @@
       <table id="detail" depends="$session$">
         <title>Session: $session$</title>
         <search>
-          <query>sourcetype=kippojson session=$session$ command=* | table command, timestamp</query>
+          <query>sourcetype=kippojson session=$session$ command=* | table command, timestamp | rename command AS "Command" timestamp AS "Timestamp"</query>
           <earliest>0</earliest>
+          <latest></latest>
         </search>
         <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
         <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>

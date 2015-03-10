@@ -1,6 +1,6 @@
 <form stylesheet="single_trend.css">
   <label>Attacker Profile</label>
-  <fieldset submitButton="false">
+  <fieldset submitButton="true">
     <input type="time" token="field2" searchWhenChanged="true">
       <label>Time Range</label>
       <default>
@@ -17,7 +17,7 @@
       <title>Attacker Location</title>
       <table>
         <search>
-          <query>src_ip=$ipaddress$| iplocation prefix=iploc_ allfields=true src_ip | table iploc_* | fields - iploc_Continent iploc_MetroCode | dedup iploc_City | rename iploc_City AS "City" iploc_Country AS "Country" iploc_Region AS "Region" iploc_Timezone AS "Timezone" iploc_lat AS "Latitude" iploc_lon AS "Longitude"</query>
+          <query>src_ip=$ipaddress$| iplocation prefix=iploc_ allfields=true src_ip | table iploc_* | fields - iploc_Continent iploc_MetroCode | dedup iploc_City | rename iploc_City AS "City" iploc_Country AS "Country" iploc_Region AS "Region" iploc_Timezone AS "Timezone" iploc_lat AS "Latitude" iploc_lon AS "Longitude" | eval City = if(isnull(City) OR City="", "Unknown", City) | eval Country = if(isnull(Country) OR Country="", "Unknown", Country) | eval Region = if(isnull(Region) OR Region="", "Unknown", Region)</query>
           <earliest>$field2.earliest$</earliest>
           <latest>$field2.latest$</latest>
         </search>
@@ -93,7 +93,7 @@
       <title>Sessions with Interaction</title>
       <table id="master">
         <search>
-          <query>sourcetype=kippojson [ search sourcetype=kippojson eventtype=login_success  | stats count by session | fields session ] | transaction session| search src_ip=$ipaddress$ | stats count(command) as count by session | where count &gt; 1</query>
+          <query>sourcetype=kippojson [ search sourcetype=kippojson eventtype=login_success  | stats count by session | fields session ] | transaction session| search src_ip=$ipaddress$ | stats count(command) as count by session | where count &gt; 1 | fields - count | rename session as "Session"</query>
           <earliest>$field2.earliest$</earliest>
           <latest>$field2.latest$</latest>
         </search>
@@ -102,9 +102,9 @@
         <drilldown>
           <!-- Use set to specify the new token to be created.
                      Use any token from the page or from the click event to produce the value needed. -->
-          <set token="session">$row.session$</set>
+          <set token="session">$row.Session$</set>
           <!-- If we also set the form.sourcetype the input will get updated too -->
-          <set token="form.sourcetype">$row.session$</set>
+          <set token="form.sourcetype">$row.Session$</set>
         </drilldown>
         <option name="wrap">true</option>
         <option name="rowNumbers">false</option>
@@ -164,7 +164,7 @@
       <title>Files Downloaded</title>
       <table>
         <search>
-          <query>sourcetype=kippojson [ search sourcetype=kippojson shasum=* | stats count by session | fields session ] | transaction session | search src_ip=$ipaddress$ | table url, shasum | dedup shasum | lookup virustotal.csv "SHA256 Hash" AS shasum OUTPUT "Vendor Signatures" | rename url AS "URL" shasum AS "SHA256 Hash" | makemv delim="|" "Vendor Signatures"</query>
+          <query>sourcetype=kippojson [ search sourcetype=kippojson shasum=* | stats count by session | fields session ] | transaction session | search src_ip=$ipaddress$ | table url, shasum | dedup shasum | lookup virustotal.csv "SHA256 Hash" AS shasum OUTPUT "Vendor Signatures" | rename url AS "URL" shasum AS "SHA256 Hash" | makemv delim="|" "Vendor Signatures" | fillnull value="Unknown"</query>
           <earliest>$field2.earliest$</earliest>
           <latest>$field2.latest$</latest>
         </search>
