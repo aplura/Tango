@@ -12,7 +12,7 @@ useradd kippo
 # Based on the OS (Debian or Redhat based), use the OS package manger to download required packages
 if [ -f /etc/debian_version ]; then
     apt-get -y update
-    apt-get -y install python-dev python-openssl python-pyasn1 authbind git python-pip libcurl4-gnutls-dev libssl-dev
+    apt-get -y install python-dev python-openssl python-pyasn1 authbind git python-pip libcurl4-gnutls-dev libssl-dev openssh-server
     pip install pycrypto
     pip install service_identity
     pip install requests
@@ -41,7 +41,7 @@ sed -i "s/#listen_port = 2222/listen_port = 22/" kippo.cfg
 # Changing the port that SSH listens on to the variable set above
 if [ -f /etc/debian_version ]; then
     cd /etc/ssh/
-    sed -i "s/Port 22/Port $SSH_PORT/" ssh_config
+    sed -i "s/Port 22/Port $SSH_PORT/" sshd_config
     service ssh restart
 elif [ -f /etc/redhat-release ]; then
     cd /etc/ssh/
