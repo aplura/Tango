@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 INSTALL_FILE="splunkforwarder.tgz"
 SPLUNK_INDEXER="indexer:9997"
 HOST_NAME="hp-md-01"
