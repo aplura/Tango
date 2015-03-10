@@ -1,25 +1,25 @@
 <p align="center">
-<img src="http://i.imgur.com/GwPM5SZ.png"></p>
+<img src="http://i.imgur.com/r8Hpjvj.png"></p>
 
 ## About
-Tango is a tool which helps organizations deploy honeypots and enables the tranmission of their logs back to you via Splunk, so you can analyze and track what is happening on your honeypots. Tango provides scripts which allow you to install everything you need on a brand-new system, or if you have existing honeypots that you want to start collecting logs from. By running the scripts provided, you can easily and rapidly deploy as many honeypots as you would like without worrying about the administration and management, so you can focus on the analysis and reacting to the threats.
+Tango is a set of scripts and Splunk apps which help organizations and users quickly and easily deploy honeypots and then view the data and analysis of the attacker sessions. There are two scripts provided which facilitate the installation of the honeypots and/or Splunk Universal Forwarder. One of the scripts `uf_only.sh` will install the Splunk Universal Forwarder and install the necessary input and output configuration files. The other script `sensor.sh` will install the Splunk Universal Forwarder along with the Kippo honeypot required for the Tango Honeypot Intelligence app to work.
 
 <p align="center">
 <img src="http://f.cl.ly/items/2w113m143M2U0x0P0B2Q/Slide1.png"></p>
 
 ## Before You Begin
 
-There are a few things that should be brought up before we begin the installation:
+There are a few things that should be noted before you install:
 
-- When you deploy the input app on a sensor, the app will communicate with the website, [icanhazip.com](www.icanhazip.com) to get the external IP address of the sensor. This is useful information for the sensor management portion of the app. Please feel free to remove if you'd rather not communicate with that site. Please note that if you do not use this, a lot of the "Sensor Management" fields will be blank.
+- When you deploy the input app on a sensor, the app will communicate with the website, [ipv4.icanhazip.com](www.ipv4.icanhazip.com) to get the external IP address of the sensor. This is useful information for the sensor management portion of the app. Please feel free to remove if you'd rather not communicate with that site. Please note that if you do not use this, a lot of the "Sensor Management" fields will be blank.
 - The Tango Honeypot Intelligence Splunk App is built to use JSON formatted data from Kippo, this was made available in the fork maintained by Michel Oosterhof, which can be found on his [github](https://github.com/micheloosterhof/kippo). He recently added this feature, so you will need to grab the latest copy for this app to work properly. 
-- You will need to add your own VirusTotal API key to the Splunk app, which can be configured at /opt/splunk/etc/apps/tango_honeypot_intelligence_app/bin/vt.py  The API is free to obtain, you will just need to follow the procedures found on their website to receive one. Please note that you are limited to 4 requests per minute, so if you attempt to do more than that, you will not receive any information.
+- You will need to add your own VirusTotal API key to the Splunk app, which can be configured at /opt/splunk/etc/apps/tango/bin/vt.py  The API is free to obtain, you will just need to follow the procedures found on their website to receive one. Please note that you are limited to 4 requests per minute, so if you attempt to do more than that, you will not receive any information. This pertains to the File Analysis section of the Splunk Honeypot Intelligence app.
 
 ## Installation
 
 
 ### Sensor Installation (Kippo and Splunk Universal Fowarder)
-This script has been tested on a brand-new install of Ubuntu 14.04 with no reported issues.
+This script has been tested on a brand-new install of Ubuntu 14.04 and Cent OS 7 with no reported issues.
 
 Copy sensor.sh to the server you wish to install Kippo and Splunk on.
 
@@ -67,7 +67,7 @@ In order to view the logs you are sending from Kippo, you will need to install S
 - Download Splunk Enterprise from Splunk
 - Copy the Tango Honeypot Intelligence for Splunk App into $SPLUNK_HOME/etc/apps/
 - Create a Splunk listener on port 9997 (It's not required to be on 9997, however, the scripts are configured to use that port, so, if you change the port, change it everywhere)
-- Add your VirusTotal API key to /opt/splunk/etc/apps/tango_honeypot_intelligence_app/bin/vt.py
+- Add your VirusTotal API key to /opt/splunk/etc/apps/tango/bin/vt.py
 - Restart Splunk
 
 Once in Splunk, you can start using the Tango app to analyze your Honeypot logs.
@@ -81,7 +81,7 @@ Once you enter the app, you'll be first taken to the "Attack Overview" portion o
 You'll notice at the top of the app, in the navigation pane, there are multiple categories of reports available to you, which include:
 
 - Attack Analysis
-- Malware Analysis
+- File Analysis
 - Network Analysis
 - Sensor Management
 - Threat Feed
@@ -92,15 +92,21 @@ Below we will go through each section and describe some of the data available in
 
 ##### Attack Overview
 
-We previously covered this above. Contains basic attack information.
+This dashboard shows a broad overview of the attacks against your sensors. This includes Attempts vs. Successes, Latest Logins, Attackers logging into multiple locations, etc.
 
 ##### Session Playlog
 
-This is one of the most vital pieces of the whole app, since it shows you all the commands entered during an attacker's session. Starting at the top, you can select the timeframe of attacks you wish to see (default is 12 hours). Below the time selector is a panel, which includes a sensor dropdown to select a sensor of interest if you choose, with the applicable sessions below that. You can sort by any of the available headers, such as "Message Count" or "Time", etc., which can help narrow down what sessions you wish to view.
+This is one of the most beneficial dashboards available in the app, since it actually shows you what the attacker is doing on your honeypot. At the top of the dashboard, you can see the most recent sessions along with a filter to select a particular sensor. Clicking on a session will populate the panels below, which includes the passwords attempted/accepted, the commands entered, any files downloaded during the session and the raw logs for the session.
 
-Once you have identified a particular session of interest, you can view the commands entered during the session by selecting the IP Address and the corresponding Session in the "Commands Entered During Session" panel.
+##### Attacker Profile
 
-Below that panel is a complimentary panel which will display the raw logs of the session, which may provide additional information about the session in addition to the commands.
+Using this dashboard, you can inquire about a certain IP and if seen in the app, you can get valuable information pertaining to that IP to include:
+
+- Geolocational data
+- Times seen
+- SSH Client versions
+- Sessions seen
+- Files Downloaded
 
 ##### Session Analysis
 
@@ -118,15 +124,13 @@ We also include a map which includes the location of attackers seen.
 
 ##### Username/Password Analysis
 
-Currently, this dashboard contains the top usernames and passwords seen being attempted by the attackers. However, we will continue to update this with more analytics related to this.
+Currently, this dashboard contains the top usernames and passwords seen being attempted by the attackers, as well as the top username/password combinations.
 
 ### Malware Analysis
 
 ##### File Analysis
 
-Starting at the top of this page, you can see the # of files downloaded over the course of 12 hours (or whatever timeframe you selected above).
-
-Moving down, we can see the latest files downloaded by attackers, which includes the following:
+Starting at the top of this page, you can see the latest files downloaded by attackers, which includes the following:
 
 - URL of file
 - SHA256 Hash of file
@@ -144,6 +148,12 @@ Lastly, is a panel which you are able to look up a particular SHA256 hash seen p
 - The various signatures of the file
 
 Please note that the VirusTotal API is limited to 4 requests per minute. With that being said, you can use this panel to quickly lookup the file hashes seen by in your sessions.
+
+This "lookup" will produce a local "cache" to use in other dashboards, so it's useful to run lookups on any malware you see. This was created do to limitations in the Virustotal API, and will be used as a workaround for the time being.
+
+##### Malware Analysis
+
+This dashboard will show the Top 10 Malware Signatures we've seen over time, as well as the most recent legitimate malware. This dashboard is populated from the VirusTotal local "cache" found on the File Analysis page. This dashboard will also show you files that have been downloaded, but, produced no signatures in Virustotal.
 
 ##### Malware Campaigns
 
@@ -166,6 +176,8 @@ This dashboard currently includes reports on the following:
 
 ### Sensor Management
 
+##### Sensor Status
+
 This dashboard provides geographical information pertaining to each sensor currently deployed. You will find the following information available to you in this dashboard:
 
 - Sensor Name
@@ -177,6 +189,15 @@ This dashboard provides geographical information pertaining to each sensor curre
 - Network Range
 
 This dashboard also provides you with a map populated with the locations of all your sensors deployed.
+
+##### Edit Sensor
+
+In this dashboard, you are able to edit a few fields for your sensors, these fields are:
+
+- Owner
+- Owner Email
+- Comment
+
 
 ### Threat Feed
 
