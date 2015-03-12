@@ -71,8 +71,9 @@ HOST_NAME="hp-countrycode-city-01"
 #[database_jsonlog3]
 #logfile = log/kippolog.json#
 #Verify that these lines are uncommented. The log file (as indicated above will be in the kippo/log/kippolog.json.* #
-#Set KIPPO_LOG_LOCATION to the absolutely directory path of the directory containing your kippolog.json files #
-KIPPO_LOG_LOCATION='/opt/kippo/log/kippolog.json*'
+#Set KIPPO_LOG_LOCATION to the absolutely directory path of the directory containing your kippolog.json files 
+#For example, /opt/kippo/log/ or /home/user/kippo/log/#
+KIPPO_LOG_LOCATION='/opt/kippo/log/'
 
 ########################################
 
@@ -197,7 +198,7 @@ print_notification "Configuring /opt/splunkforwarder/etc/apps/tango_input/defaul
 
 cd /opt/splunkforwarder/etc/apps/tango_input/default 
 sed -i "s/test/$HOST_NAME/" inputs.conf &>> $logfile
-sed -i "s,/opt/kippo/log/kippolog.json*,${KIPPO_LOG_LOCATION}," inputs.conf &>> $logfile
+sed -i "s,/opt/kippo/log/,${KIPPO_LOG_LOCATION}," inputs.conf &>> $logfile
 sed -i "s/test/$SPLUNK_INDEXER/" outputs.conf &>> $logfile
 
 chown -R splunk:splunk /opt/splunkforwarder &>> $logfile
