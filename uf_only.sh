@@ -1,16 +1,8 @@
 #!/bin/bash
-<<<<<<< HEAD
 #Universal Forwarder Install Only for Tango Honeypot
 #Should be compatible with Ubuntu and Debian.
-=======
-INSTALL_FILE="splunkforwarder.tgz"
-SPLUNK_INDEXER="indexer:9997"
-HOST_NAME="hp-md-01"
-KIPPO_LOG_LOCATION='/opt/kippo/log/kippolog.json.*'
->>>>>>> 97a95934f9a1ad11a068d16d81576b72752249e4
 
-# Logging setup. This is done to log all the output from commands executed in the script to a file. 
-#This provides us troubleshooting data if the script fails.
+# Logging setup. This is done to log all the output from commands executed in the script to a file. This provides us troubleshooting data if the script fails.
 
 logfile=/var/log/tango_install.log
 mkfifo ${logfile}.pipe
@@ -20,8 +12,7 @@ rm ${logfile}.pipe
 
 ########################################
 
-#metasploit-like print statements. Status messages, error messages, good status returns.
-# I added in a notification print for areas users should definitely pay attention to.
+#metasploit-like print statements. Status messages, error messages, good status returns. I added in a notification print for areas users should definitely pay attention to.
 
 function print_status ()
 {
@@ -44,8 +35,7 @@ function print_notification ()
 }
 ########################################
 
-#Script does a lot of error checking. Decided to insert an error check function. 
-# If a task performed returns a non zero status code, something very likely went wrong.
+#Script does a lot of error checking. Decided to insert an error check function. If a task performed returns a non zero status code, something very likely went wrong.
 
 function error_check
 {
@@ -67,25 +57,22 @@ fi
 
 # These Variables Need to be set! #
 
-#SPLUNK_INDEXER: This is the box that is going to process your splunk logs. 
-#Can be a hostname or an IP address. The default port is 9997/tcp. #
+#SPLUNK_INDEXER: This is the box that is going to process your splunk logs. Can be a hostname or an IP address. The default port is 9997/tcp. #
 SPLUNK_INDEXER="splunkserver.yourdomain.com:9997"
 
-#HOST_NAME: This controls what name your kippo server will have when reviewing its 
-# data in the Tango Splunk App. Use unique names. 
-# Suggestion: "hp-{country code}-{city}-{number}" such as: hp-US-Las_Vegas-01 #
-
+#HOST_NAME: This controls what name your kippo server will have when reviewing its data in the Tango Splunk App. #
+# Use unique names. Suggestion: "hp-{country code}-{city}-{number}" such as: hp-US-Las_Vegas-01 #
 HOST_NAME="hp-countrycode-city-01"
 
 #KIPPO_LOG_LOCATION: What is the location of your kippo honeypot logs? #
 #For most bang for the buck, you'll want to send splunk "kippolog.json logs. #
 #Assuming you are running Michel Oosterhof's branch of kippo (https://github.com/micheloosterhof/kippo).. #
 #You should be getting shiny JSON logs by default. If not find the following section in kippo.cfg: #
-#[database_jsonlog]#
+#[database_jsonlog3]
 #logfile = log/kippolog.json#
 #Verify that these lines are uncommented. The log file (as indicated above will be in the kippo/log/kippolog.json.* #
 #Set KIPPO_LOG_LOCATION to the absolutely directory path of the directory containing your kippolog.json files #
-KIPPO_LOG_LOCATION='/opt/kippo/log/kippolog.json*'
+KIPPO_LOG_LOCATION='/opt/kippo/log/kippolog.json.*'
 
 ########################################
 
@@ -127,7 +114,7 @@ fi
 
 ########################################
 
-# Based on the OS (Debian or Redhat based), use the OS package mangaer to download required packages
+# Based on the OS (Debian or Redhat based), use the OS package manger to download required packages
 
 if [ -f /etc/debian_version ]; then
     apt-get -y update &>> $logfile
@@ -186,7 +173,6 @@ chown -R splunk:splunk /home/splunk &>> $logfile
 
 print_notification "Installing Splunk Universal Forwarder.."
 cd /opt
-<<<<<<< HEAD
 tar -xzf $INSTALL_FILE &>> $logfile
 chown -R splunk:splunk splunkforwarder &>> $logfile
 sudo -u splunk /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --auto-ports --no-prompt &>> $logfile
@@ -196,8 +182,7 @@ error_check 'Universal Forwarder Install'
 
 ########################################
 
-#Check to see if the user tried to execute uf_only outside of the Tango directory. Yell at them if they did. 
-# Grab tango_input from the Tango directory (if it's there), configure inputs.conf, start up the forwarder. We done here.
+#Check to see if the user tried to execute uf_only outside of the Tango directory. Yell at them if they did. Grab tango_input from the Tango directory (if it's there), configure inputs.conf, start up the forwarder. We done here.
 
 print_notification "Installing tango_input.."
 
@@ -224,26 +209,3 @@ print_notification "If the location of your kippo log files changes or the hostn
 print_good "Install Completed. The splunk forwarder should be reporting and sending data to your indexer. Log file is located at /var/log/tango_install.log"
 
 exit 0
-=======
-if [ $(uname -m) == 'x86_64' ]; then
-    wget -O ${INSTALL_FILE} 'http://www.splunk.com/page/download_track?file=6.2.2/universalforwarder/linux/splunkforwarder-6.2.2-255606-Linux-x86_64.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=x86_64&version=6.2.2&product=splunk&typed=release'
-else
-    wget -O ${INSTALL_FILE} 'http://www.splunk.com/page/download_track?file=6.2.2/universalforwarder/linux/splunkforwarder-6.2.2-255606-Linux-i686.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=i686&version=6.2.2&product=splunk&typed=release'
-fi
-tar -xzf $INSTALL_FILE
-chown -R splunk:splunk splunkforwarder
-su splunk -c "/opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --auto-ports --no-prompt"
-/opt/splunkforwarder/bin/splunk enable boot-start -user splunk
-
-# Installing the tango_input app which configures inputs and outputs and hostname
-git clone https://github.com/aplura/Tango.git
-cd Tango
-mv tango_input /opt/splunkforwarder/etc/apps/
-cd /opt/splunkforwarder/etc/apps/tango_input/default
-sed -i "s/test/$HOST_NAME/" inputs.conf
-sed -i "s,/opt/kippo/log/kippo.log,${KIPPO_LOG_LOCATION}," inputs.conf
-sed -i "s/test/$SPLUNK_INDEXER/" outputs.conf
-
-chown -R splunk:splunk /opt/splunkforwarder
-/opt/splunkforwarder/bin/splunk restart
->>>>>>> 97a95934f9a1ad11a068d16d81576b72752249e4
