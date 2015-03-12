@@ -72,7 +72,7 @@ HOST_NAME="hp-countrycode-city-01"
 #logfile = log/kippolog.json#
 #Verify that these lines are uncommented. The log file (as indicated above will be in the kippo/log/kippolog.json.* #
 #Set KIPPO_LOG_LOCATION to the absolutely directory path of the directory containing your kippolog.json files #
-KIPPO_LOG_LOCATION='/opt/kippo/log/kippolog.json.*'
+KIPPO_LOG_LOCATION='/opt/kippo/log/kippolog.json*'
 
 ########################################
 
