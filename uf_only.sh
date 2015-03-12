@@ -1,6 +1,13 @@
 #!/bin/bash
+<<<<<<< HEAD
 #Universal Forwarder Install Only for Tango Honeypot
 #Should be compatible with Ubuntu and Debian.
+=======
+INSTALL_FILE="splunkforwarder.tgz"
+SPLUNK_INDEXER="indexer:9997"
+HOST_NAME="hp-md-01"
+KIPPO_LOG_LOCATION='/opt/kippo/log/kippolog.json.*'
+>>>>>>> 97a95934f9a1ad11a068d16d81576b72752249e4
 
 # Logging setup. This is done to log all the output from commands executed in the script to a file. 
 #This provides us troubleshooting data if the script fails.
@@ -179,6 +186,7 @@ chown -R splunk:splunk /home/splunk &>> $logfile
 
 print_notification "Installing Splunk Universal Forwarder.."
 cd /opt
+<<<<<<< HEAD
 tar -xzf $INSTALL_FILE &>> $logfile
 chown -R splunk:splunk splunkforwarder &>> $logfile
 sudo -u splunk /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --auto-ports --no-prompt &>> $logfile
@@ -216,3 +224,26 @@ print_notification "If the location of your kippo log files changes or the hostn
 print_good "Install Completed. The splunk forwarder should be reporting and sending data to your indexer. Log file is located at /var/log/tango_install.log"
 
 exit 0
+=======
+if [ $(uname -m) == 'x86_64' ]; then
+    wget -O ${INSTALL_FILE} 'http://www.splunk.com/page/download_track?file=6.2.2/universalforwarder/linux/splunkforwarder-6.2.2-255606-Linux-x86_64.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=x86_64&version=6.2.2&product=splunk&typed=release'
+else
+    wget -O ${INSTALL_FILE} 'http://www.splunk.com/page/download_track?file=6.2.2/universalforwarder/linux/splunkforwarder-6.2.2-255606-Linux-i686.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=i686&version=6.2.2&product=splunk&typed=release'
+fi
+tar -xzf $INSTALL_FILE
+chown -R splunk:splunk splunkforwarder
+su splunk -c "/opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --auto-ports --no-prompt"
+/opt/splunkforwarder/bin/splunk enable boot-start -user splunk
+
+# Installing the tango_input app which configures inputs and outputs and hostname
+git clone https://github.com/aplura/Tango.git
+cd Tango
+mv tango_input /opt/splunkforwarder/etc/apps/
+cd /opt/splunkforwarder/etc/apps/tango_input/default
+sed -i "s/test/$HOST_NAME/" inputs.conf
+sed -i "s,/opt/kippo/log/kippo.log,${KIPPO_LOG_LOCATION}," inputs.conf
+sed -i "s/test/$SPLUNK_INDEXER/" outputs.conf
+
+chown -R splunk:splunk /opt/splunkforwarder
+/opt/splunkforwarder/bin/splunk restart
+>>>>>>> 97a95934f9a1ad11a068d16d81576b72752249e4

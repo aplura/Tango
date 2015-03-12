@@ -1,18 +1,15 @@
 <p align="center">
-<img src="http://i.imgur.com/r8Hpjvj.png"></p>
+<img src="http://i.imgur.com/wKWkRaz.png"></p>
 
 ## About
 Tango is a set of scripts and Splunk apps which help organizations and users quickly and easily deploy honeypots and then view the data and analysis of the attacker sessions. There are two scripts provided which facilitate the installation of the honeypots and/or Splunk Universal Forwarder. One of the scripts `uf_only.sh` will install the Splunk Universal Forwarder and install the necessary input and output configuration files. The other script `sensor.sh` will install the Splunk Universal Forwarder along with the Kippo honeypot required for the Tango Honeypot Intelligence app to work.
-
-<p align="center">
-<img src="http://f.cl.ly/items/2w113m143M2U0x0P0B2Q/Slide1.png"></p>
 
 ## Before You Begin
 
 There are a few things that should be noted before you install:
 
 - When you deploy the input app on a sensor, the app will communicate with the website, [ipv4.icanhazip.com](www.ipv4.icanhazip.com) to get the external IP address of the sensor. This is useful information for the sensor management portion of the app. Please feel free to remove if you'd rather not communicate with that site. Please note that if you do not use this, a lot of the "Sensor Management" fields will be blank.
-- The Tango Honeypot Intelligence Splunk App is built to use JSON formatted data from Kippo, this was made available in the fork maintained by Michel Oosterhof, which can be found on his [github](https://github.com/micheloosterhof/kippo). He recently added this feature, so you will need to grab the latest copy for this app to work properly. 
+- The Tango Honeypot Intelligence Splunk App is built to use JSON formatted data from Kippo, this was made available in the fork maintained by Michel Oosterhof, which can be found on his [github](https://github.com/micheloosterhof/kippo). He recently added this feature, so you will need to grab the latest copy for this app to work properly (if deploying the honeypot and Splunk separately.)
 - You will need to add your own VirusTotal API key to the Splunk app, which can be configured at /opt/splunk/etc/apps/tango/bin/vt.py  The API is free to obtain, you will just need to follow the procedures found on their website to receive one. Please note that you are limited to 4 requests per minute, so if you attempt to do more than that, you will not receive any information. This pertains to the File Analysis section of the Splunk Honeypot Intelligence app.
 
 ## Installation
@@ -210,3 +207,40 @@ The feeds currently available are:
 - SHA File Hashes
 - Potentially Malicious Domains
 - File Names
+
+### Screenshots
+
+Below are some screenshots which illustrate the features of Tango:
+
+#### Attack Overview
+<p align="center">
+<img src="http://i.imgur.com/2ZkYzAF.png"></p>
+
+#### Session Analysis
+<p align="center">
+<img src="http://i.imgur.com/O3WLbK0.png"></p>
+
+#### Malware Campaigns
+<p align="center">
+<img src="http://i.imgur.com/sNhpSGo.png"></p>
+
+#### Session Playlog
+<p align="center">
+<img src="http://i.imgur.com/nu4m5Eg.png"></p>
+
+#### IOC Feed
+<p align="center">
+<img src="http://i.imgur.com/fT1XCSj.png"></p>
+
+#### Network Analysis
+<p align="center">
+<img src="http://i.imgur.com/Rj29b9r.png"></p>
+
+#### Malware Analysis
+<p align="center">
+<img src="http://i.imgur.com/SToO8q3.png"></p>
+
+### To-Do
+- Utilize Data Models to speed up searches
+- Auto-extract indicators inside of malware
+- TOR Exit Node Identifier

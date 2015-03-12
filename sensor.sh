@@ -1,4 +1,5 @@
 #!/bin/bash
+<<<<<<< HEAD
 #Tango Sensor Install
 #Should be compatible with Ubuntu and Debian
 
@@ -81,6 +82,11 @@ KIPPO_LOG_LOCATION='/opt/kippo/log/kippolog.json*'
 
 #SSH_PORT: This port will replace the default SSH port (22), so that Kippo may run on it, and you'll stil be able
 # to access the host using SSH.
+=======
+INSTALL_FILE="splunkforwarder.tgz"
+SPLUNK_INDEXER="indexer:9997"
+HOST_NAME="hp-md-01"
+>>>>>>> 97a95934f9a1ad11a068d16d81576b72752249e4
 SSH_PORT="1337"
 
 ########################################
@@ -126,6 +132,7 @@ fi
 # Based on the OS (Debian or Redhat based), use the OS package mangaer to download required packages
 
 if [ -f /etc/debian_version ]; then
+<<<<<<< HEAD
     apt-get -y update &>> $logfile
     print_notification "Installing required packages via apt-get.."
     apt-get -y install python-dev python-openssl python-pyasn1 authbind git python-pip libcurl4-gnutls-dev libssl-dev openssh-server&>> $logfile
@@ -134,6 +141,15 @@ if [ -f /etc/debian_version ]; then
     print_notification "Installing required python packages via pip.."
     pip install pycrypto service_identity requests ipwhois twisted &>> $logfile
     error_check 'Python pip'
+=======
+    apt-get -y update
+    apt-get -y install python-dev python-openssl python-pyasn1 authbind git python-pip libcurl4-gnutls-dev libssl-dev openssh-server
+    pip install pycrypto
+    pip install service_identity
+    pip install requests
+    pip install ipwhois
+    pip install twisted
+>>>>>>> 97a95934f9a1ad11a068d16d81576b72752249e4
 elif [ -f /etc/redhat-release ]; then
     yum -y update &>> $logfile
     print_notification "Installing required packages via yum.."
@@ -267,6 +283,7 @@ print_notification "Authbind Configured to use Port 22"
 
 print_notification "Installing Splunk Universal Forwarder.."
 cd /opt
+<<<<<<< HEAD
 tar -xzf $INSTALL_FILE &>> $logfile
 chown -R splunk:splunk splunkforwarder &>> $logfile
 sudo -u splunk /opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --auto-ports --no-prompt &>> $logfile
@@ -304,3 +321,27 @@ print_notification "If the location of your kippo log files changes or the hostn
 print_good "Install Completed. The splunk forwarder should be reporting and sending data to your indexer. Log file is located at /var/log/tango_install.log"
 
 exit 0
+=======
+
+if [ $(uname -m) == 'x86_64' ]; then
+    wget -O ${INSTALL_FILE} 'http://www.splunk.com/page/download_track?file=6.2.2/universalforwarder/linux/splunkforwarder-6.2.2-255606-Linux-x86_64.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=x86_64&version=6.2.2&product=splunk&typed=release'
+else
+    wget -O ${INSTALL_FILE} 'http://www.splunk.com/page/download_track?file=6.2.2/universalforwarder/linux/splunkforwarder-6.2.2-255606-Linux-i686.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=i686&version=6.2.2&product=splunk&typed=release'
+fi
+
+tar -xzf $INSTALL_FILE
+chown -R splunk:splunk splunkforwarder
+su splunk -c "/opt/splunkforwarder/bin/splunk start --accept-license --answer-yes --auto-ports --no-prompt"
+/opt/splunkforwarder/bin/splunk enable boot-start -user splunk
+
+# Installing the tango_input app which configures inputs and outputs and hostname
+git clone https://github.com/aplura/Tango.git
+cd Tango
+mv tango_input /opt/splunkforwarder/etc/apps/
+cd /opt/splunkforwarder/etc/apps/tango_input/default
+sed -i "s/test/$HOST_NAME/" inputs.conf
+sed -i "s/test/$SPLUNK_INDEXER/" outputs.conf
+
+chown -R splunk:splunk /opt/splunkforwarder
+/opt/splunkforwarder/bin/splunk restart
+>>>>>>> 97a95934f9a1ad11a068d16d81576b72752249e4
