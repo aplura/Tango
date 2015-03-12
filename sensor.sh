@@ -69,16 +69,6 @@ SPLUNK_INDEXER="splunkserver.yourdomain.com:9997"
 # Suggestion: "hp-{country code}-{city}-{number}" such as: hp-US-Las_Vegas-01 #
 HOST_NAME="hp-countrycode-city-01"
 
-#KIPPO_LOG_LOCATION: What is the location of your kippo honeypot logs? #
-#For most bang for the buck, you'll want to send splunk "kippolog.json logs. #
-#Assuming you are running Michel Oosterhof's branch of kippo (https://github.com/micheloosterhof/kippo).. #
-#You should be getting shiny JSON logs by default. If not find the following section in kippo.cfg: #
-#[database_jsonlog]#
-#logfile = log/kippolog.json#
-#Verify that these lines are uncommented. The log file (as indicated above will be in the kippo/log/kippolog.json.* #
-#Set KIPPO_LOG_LOCATION to the absolutely directory path of the directory containing your kippolog.json files #
-KIPPO_LOG_LOCATION='/opt/kippo/log/kippolog.json*'
-
 #SSH_PORT: This port will replace the default SSH port (22), so that Kippo may run on it, and you'll stil be able
 # to access the host using SSH.
 SSH_PORT="1337"
@@ -217,7 +207,6 @@ error_check "Cloned Kippo Repository from GitHub"
 cd kippo
 cp kippo.cfg.dist kippo.cfg &>> $logfile
 # Changing the Honeypot name as well as changing the port that Kippo listens on
-sed -i "s/svr03/$KIPPO_HOST/" kippo.cfg &>> $logfile
 sed -i "s/#listen_port = 2222/listen_port = 22/" kippo.cfg &>> $logfile
 print_notification "Configured Kippo Honeypot"
 
@@ -292,7 +281,6 @@ print_notification "Configuring /opt/splunkforwarder/etc/apps/tango_input/defaul
 
 cd /opt/splunkforwarder/etc/apps/tango_input/default 
 sed -i "s/test/$HOST_NAME/" inputs.conf &>> $logfile
-sed -i "s,/opt/kippo/log/kippo.log,${KIPPO_LOG_LOCATION}," inputs.conf &>> $logfile
 sed -i "s/test/$SPLUNK_INDEXER/" outputs.conf &>> $logfile
 
 chown -R splunk:splunk /opt/splunkforwarder &>> $logfile
