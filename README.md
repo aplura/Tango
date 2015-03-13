@@ -75,6 +75,7 @@ In order to view the logs you are sending from Kippo, you will need to install S
 - Copy the Tango Honeypot Intelligence for Splunk App into $SPLUNK_HOME/etc/apps/
 - Create a Splunk listener on port 9997 (It's not required to be on 9997, however, the scripts are configured to use that port, so, if you change the port, change it everywhere)
 - Add your VirusTotal API key to /opt/splunk/etc/apps/tango/bin/vt.py
+- You'll need to add the requests source into the tango app's bin directory `/opt/splunk/etc/apps/tango/bin/`. Requests can be found here: [Kenneth Reitz Github](https://github.com/kennethreitz/requests/). This is needed for the VirusTotal lookup.
 - Restart Splunk
 
 Once in Splunk, you can start using the Tango app to analyze your Honeypot logs.
