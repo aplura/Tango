@@ -2,14 +2,13 @@
 #Universal Forwarder Install Only for Tango Honeypot
 #Should be compatible with Ubuntu and Debian.
 
-
 #Disclaimer. Continues for yes, quits for no.
 while true; do
-    read -p "DISCLAIMER. DO YOU AGREE? (yes/no)" yn
+    read -p "[!] You are about to install Kippo and the Splunk Universal Forwarder. By running this installer, you accept Splunk's EULA. Do you wish to proceed? (Yes/No)" yn
     case $yn in
         [Yy]* ) break;;
         [Nn]* ) exit;;
-        * ) echo "Please answer yes or no.";;
+        * ) echo "Please answer Yes or No.";;
     esac
 done
 
@@ -17,22 +16,13 @@ done
 
 #User input variables
 #Splunk Indexer hostname/IP address from user
-echo "Enter your Splunk Indexer.
-Can be a hostname or an IP address. The default port is 9997/tcp"
-read SPLUNK_INDEXER
-echo ""
+read -e -p "[?] Enter the Splunk Indexer to forward logs to: (example: splunk.test.com:9997) " SPLUNK_INDEXER
 
 #Sensor hostname from user
-echo "Enter Sensor hostname. This controls what name your kippo server will have
-when reviewing its data in the Tango Splunk App. Use unique names.
-Suggestion: "hp-{country code}-{city}-{number}" such as: hp-US-Las_Vegas-01"
-read HOST_NAME
-echo""
+read -e -p "[?] Enter Sensor name. (example: hp-US-Las_Vegas-01) " HOST_NAME
 
-#Location of Kippo Logs 
-echo "Enter the location of your kippo honeypot logs.
-For example, /opt/kippo/log/ or /home/user/kippo/log/"
-read KIPPO_LOG_LOCATION
+#SSH Port number from user
+read -e -p "[?] Enter new SSH port number, since Kippo will listen on default SSH port. (example: 1337) " SSH_PORT
 
 ########################################
 
