@@ -2,8 +2,43 @@
 #Universal Forwarder Install Only for Tango Honeypot
 #Should be compatible with Ubuntu and Debian.
 
-# Logging setup. This is done to log all the output from commands executed in the script to a file. This provides us troubleshooting data if the script fails.
 
+#Disclaimer. Continues for yes, quits for no.
+while true; do
+    read -p "DISCLAIMER. DO YOU AGREE? (yes/no)" yn
+    case $yn in
+        [Yy]* ) break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+########################################
+
+#User input variables
+#Splunk Indexer hostname/IP address from user
+echo "Enter your Splunk Indexer.
+Can be a hostname or an IP address. The default port is 9997/tcp"
+read SPLUNK_INDEXER
+echo ""
+
+#Sensor hostname from user
+echo "Enter Sensor hostname. This controls what name your kippo server will have
+when reviewing its data in the Tango Splunk App. Use unique names.
+Suggestion: "hp-{country code}-{city}-{number}" such as: hp-US-Las_Vegas-01"
+read HOST_NAME
+echo""
+
+#Location of Kippo Logs 
+echo "Enter the location of your kippo honeypot logs.
+For example, /opt/kippo/log/ or /home/user/kippo/log/"
+read KIPPO_LOG_LOCATION
+
+########################################
+
+
+
+# Logging setup. This is done to log all the output from commands executed in the script to a file. This provides us troubleshooting data if the script fails.
 logfile=/var/log/tango_install.log
 mkfifo ${logfile}.pipe
 tee < ${logfile}.pipe $logfile &
@@ -58,11 +93,11 @@ fi
 # These Variables Need to be set! #
 
 #SPLUNK_INDEXER: This is the box that is going to process your splunk logs. Can be a hostname or an IP address. The default port is 9997/tcp. #
-SPLUNK_INDEXER="splunkserver.yourdomain.com:9997"
+#SPLUNK_INDEXER="splunkserver.yourdomain.com:9997"
 
 #HOST_NAME: This controls what name your kippo server will have when reviewing its data in the Tango Splunk App. #
 # Use unique names. Suggestion: "hp-{country code}-{city}-{number}" such as: hp-US-Las_Vegas-01 #
-HOST_NAME="hp-countrycode-city-01"
+#HOST_NAME="hp-countrycode-city-01"
 
 #KIPPO_LOG_LOCATION: What is the location of your kippo honeypot logs? #
 #For most bang for the buck, you'll want to send splunk "kippolog.json logs. #
@@ -73,7 +108,7 @@ HOST_NAME="hp-countrycode-city-01"
 #Verify that these lines are uncommented. The log file (as indicated above will be in the kippo/log/kippolog.json.* #
 #Set KIPPO_LOG_LOCATION to the absolutely directory path of the directory containing your kippolog.json files 
 #For example, /opt/kippo/log/ or /home/user/kippo/log/#
-KIPPO_LOG_LOCATION='/opt/kippo/log/'
+#KIPPO_LOG_LOCATION='/opt/kippo/log/'
 
 ########################################
 
