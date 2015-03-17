@@ -18,31 +18,15 @@ There are a few things that should be noted before you install:
 ### Sensor Installation (Kippo and Splunk Universal Fowarder)
 This script has been tested on a brand-new install of Ubuntu 14.04 and Cent OS 7 with no reported issues.
 
+To get started, run the commands below and follow the prompts to enter the necessary input.
+
 ```
-cd /tmp
-git clone https://github.com/aplura/Tango.git
-cd Tango
+git clone https://github.com/aplura/Tango.git /tmp/tango; chmod +x /tmp/tango/sensor.sh; /tmp/tango/sensor.sh
 ```
 
-Before running the sensor.sh script you will need to edit the script and change the following:
-
-Variable | Purpose
---- | ---
-SPLUNK_INDEXER | Set this to your Splunk Indexer/Intermediate Forwarder
-HOST_NAME | This is the hostname for the sensor that will appear in Splunk
-SSH_PORT | You will need to SSH to the sensor on this port
-
-There are some other options you can change in /opt/kippo/kippo.cfg if you choose, however, some of these will break the forwarding of logs (such as changing the listening port set to 2222), however, there are some extra modules, such as mysql or xmpp logging you can enable if you choose, as well as changing the hostname of the honeypot.
+There are some options you can change in /opt/kippo/kippo.cfg if you choose, however, some of these will break the forwarding of logs (such as changing the listening port set to 2222), however, there are some extra modules, such as mysql or xmpp logging you can enable if you choose, as well as changing the hostname of the honeypot.
 
 Kippo is highly configurable, so if you wish to add extra commands or output to Kippo, there are tons of resources on github or google, which can help you do that if you choose.
-
-After configuring, follow these steps:
-
-```
-su root
-chmod +x sensor.sh
-./sensor.sh
-```
 
 The script will install the required packages based on the OS, then install Kippo, and lastly, install the Splunk Universal Forwarder. 
 
@@ -50,21 +34,10 @@ The script will install the required packages based on the OS, then install Kipp
 
 If you already have Kippo honeypots deployed and wish to start analyzing their logs in the Tango Honeypot Intelligence Splunk App, you can run the uf_only.sh script, which will install the Splunk UF on your host, and configure the inputs and outputs necessary to start viewing your logs.
 
-To get started:
+To get started, run the commands below and follow the prompts to enter the necessary input.
 
 ```
-cd /tmp
-git clone https://github.com/aplura/Tango.git
-```
-
-Edit the uf_only.sh script to change your Splunk Indexer/Forwarder name, you can also change the Host Name to whatever you choose. Lastly, you will need to change the location of the Kippo logs to wherever they are stored on your machine.
-
-After you have made the necessary changes:
-
-```
-su root
-chmod +x uf_only.sh
-./uf_only.sh
+git clone https://github.com/aplura/Tango.git /tmp/tango; chmod +x /tmp/tango/uf_only.sh; /tmp/tango/uf_only.sh
 ```
 
 ### Server Installation
