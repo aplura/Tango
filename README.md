@@ -11,7 +11,6 @@ There are a few things that should be noted before you install:
 - When you deploy the input app on a sensor, the app will communicate with the website, [ipv4.icanhazip.com](www.ipv4.icanhazip.com) to get the external IP address of the sensor. This is useful information for the sensor management portion of the app. Please feel free to remove if you'd rather not communicate with that site. Please note that if you do not use this, a lot of the "Sensor Management" fields will be blank.
 - The Tango Honeypot Intelligence Splunk App is built to use JSON formatted data from Kippo, this was made available in the fork maintained by Michel Oosterhof, which can be found on his [github](https://github.com/micheloosterhof/kippo). He recently added this feature, so you will need to grab the latest copy for this app to work properly (if deploying the honeypot and Splunk separately.)
 - You will need to add your own VirusTotal API key to the Splunk app, which can be configured at /opt/splunk/etc/apps/tango/bin/vt.py  The API is free to obtain, you will just need to follow the procedures found on their website to receive one. Please note that you are limited to 4 requests per minute, so if you attempt to do more than that, you will not receive any information. This pertains to the File Analysis section of the Splunk Honeypot Intelligence app.
-- There are a few dashboards that utilize the [dendrogram](https://apps.splunk.com/app/1906/) Splunk app. The dashboards will function without this piece, however, some useful visualizations can be added by using this app. Instructions are provided below.
 
 ## Installation
 
@@ -50,15 +49,6 @@ In order to view the logs you are sending from Kippo, you will need to install S
 - Create a Splunk listener on port 9997 (It's not required to be on 9997, however, the scripts are configured to use that port, so, if you change the port, change it everywhere)
 - Add your VirusTotal API key to /opt/splunk/etc/apps/tango/bin/vt.py
 - You'll need to add the requests source into the tango app's bin directory `/opt/splunk/etc/apps/tango/bin/`. Requests can be found here: [Kenneth Reitz Github](https://github.com/kennethreitz/requests/). This is needed for the VirusTotal lookup.
-- If you want to add some visualizations to Tango, you will need to install the dendrogram splunk app, which can be found [here](https://apps.splunk.com/app/1906/). Once installed, you'll want to run the command below to move the contents over to Tango:
-```
-$ cp -r /opt/splunk/etc/apps/hobbes3_dendrogram/appserver/static/ /opt/splunk/etc/apps/tango/appserver/static
-```
-- By default, this app displays the count and values of the nodes, which can be visually distracting. If you wish to remove these values from being displayed, edit the autodiscover.js file in /opt/splunk/etc/apps/tango/appserver/static/dendrogram/dendrogam.js and change lines 206 and 207 to:
-```
-var long_label = d.name
-var short_label = d.name
-```
 - Restart Splunk
 
 Once in Splunk, you can start using the Tango app to analyze your Honeypot logs.
@@ -240,6 +230,5 @@ Below are some screenshots which illustrate the features of Tango:
 - TOR Exit Node Identifier
 
 ### Credits
-- https://github.com/hobbes3 for the Dendrogram APp
 - https://github.com/kennethreitz for Requests
 - http://virustotal.com/ for their awesome app and API we use
