@@ -21,9 +21,6 @@ read -e -p "[?] Enter the Splunk Indexer to forward logs to: (example: splunk.te
 #Sensor hostname from user
 read -e -p "[?] Enter Sensor name: (example: hp-US-Las_Vegas-01) " HOST_NAME
 
-#SSH Port number from user
-read -e -p "[?] Enter new SSH port number, since Kippo will listen on default SSH port: (example: 1337) " SSH_PORT
-
 #Kippo Logs
 read -e -p "[?] Enter the full path to where your Kippo logs are stored: (example:/opt/kippo/log/) " KIPPO_LOG_LOCATION
 
