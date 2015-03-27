@@ -189,6 +189,8 @@ else
     print_status "Creating splunk user and group.."
     groupadd splunk &>> $logfile
     useradd -g splunk splunk -d /home/splunk -s /bin/false &>> $logfile
+    mkdir /home/splunk
+    chown -R splunk:splunk /home/splunk
     error_check 'Splunk user and group creation'
     
 fi
