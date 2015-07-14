@@ -238,6 +238,10 @@ cd kippo
 cp kippo.cfg.dist kippo.cfg &>> $logfile
 # Changing the Honeypot name as well as changing the port that Kippo listens on
 sed -i "s/#listen_port = 2222/listen_port = 22/" kippo.cfg &>> $logfile
+sed -i "s/#\[database_jsonlog\]/\[database_jsonlog\]/" kippo.cfg &>> $logfile
+sed -i "s/#logfile = log\/kippolog.json/logfile = log\/kippolog.json/" kippo.cfg &>> $logfile
+sed -i "s/\[output_jsonlog\]/#\[output_jsonlog\]/" kippo.cfg &>> $logfile
+sed -i "s/logfile = log\/kippo.json/#logfile = log\/kippo.json/" kippo.cfg &>> $logfile
 print_notification "Configured Kippo Honeypot"
 
 ########################################
