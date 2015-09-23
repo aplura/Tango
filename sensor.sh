@@ -155,6 +155,7 @@ if [ -f /etc/debian_version ]; then
     print_notification "Installing required python packages via pip.."
     pip install pycrypto service_identity requests ipwhois twisted &>> $logfile
     error_check 'Python pip'
+    iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222
 elif [ -f /etc/redhat-release ]; then
     yum -y update &>> $logfile
     print_notification "Installing required packages via yum.."
@@ -239,7 +240,7 @@ error_check "Cloned Cowrie Repository from GitHub"
 cd cowrie
 cp cowrie.cfg.dist cowrie.cfg &>> $logfile
 # Changing the Honeypot name as well as changing the port that Kippo listens on
-sed -i "s/#listen_port = 2222/listen_port = 22/" cowrie.cfg &>> $logfile
+#sed -i "s/#listen_port = 2222/listen_port = 22/" cowrie.cfg &>> $logfile
 #sed -i "s/#\[database_jsonlog\]/\[database_jsonlog\]/" cowrie.cfg &>> $logfile
 #sed -i "s/#logfile = log\/kippolog.json/logfile = log\/kippolog.json/" cowrie.cfg &>> $logfile
 #sed -i "s/\[output_jsonlog\]/#\[output_jsonlog\]/" cowrie.cfg &>> $logfile
@@ -275,16 +276,16 @@ fi
 ########################################
 
 # Setting up authbind to allow kippo user to bind to privileged port
-print_notification "Configuring Authbind"
-touch /etc/authbind/byport/22 &>> $logfile
-chown cowrie:cowrie /etc/authbind/byport/22 &>> $logfile
-chmod 777 /etc/authbind/byport/22 &>> $logfile
-chown -R cowrie:cowrie /opt/cowrie &>> $logfile
-cd /opt/cowrie
+#print_notification "Configuring Authbind"
+#touch /etc/authbind/byport/22 &>> $logfile
+#chown cowrie:cowrie /etc/authbind/byport/22 &>> $logfile
+#chmod 777 /etc/authbind/byport/22 &>> $logfile
+#chown -R cowrie:cowrie /opt/cowrie &>> $logfile
+#cd /opt/cowrie
 #sed -i "s,twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid,authbind --deep twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid," start.sh &>> $logfile
 sudo -u cowrie ./start.sh &>> $logfile
 error_check "Cowrie started successfully"
-print_notification "Authbind Configured to use Port 22"
+#print_notification "Authbind Configured to use Port 22"
 
 ########################################
 
