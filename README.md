@@ -2,20 +2,20 @@
 <img src="http://i.imgur.com/wKWkRaz.png"></p>
 
 ## About
-Tango is a set of scripts and Splunk apps which help organizations and users quickly and easily deploy honeypots and then view the data and analysis of the attacker sessions. There are two scripts provided which facilitate the installation of the honeypots and/or Splunk Universal Forwarder. One of the scripts `uf_only.sh` will install the Splunk Universal Forwarder and install the necessary input and output configuration files. The other script `sensor.sh` will install the Splunk Universal Forwarder along with the Kippo honeypot required for the Tango Honeypot Intelligence app to work.
+Tango is a set of scripts and Splunk apps which help organizations and users quickly and easily deploy honeypots and then view the data and analysis of the attacker sessions. There are two scripts provided which facilitate the installation of the honeypots and/or Splunk Universal Forwarder. One of the scripts `uf_only.sh` will install the Splunk Universal Forwarder and install the necessary input and output configuration files. The other script `sensor.sh` will install the Splunk Universal Forwarder along with the Cowrie honeypot required for the Tango Honeypot Intelligence app to work.
 
 ## Before You Begin
 
 There are a few things that should be noted before you install:
 
 - When you deploy the input app on a sensor, the app will communicate with the website, [ipv4.icanhazip.com](www.ipv4.icanhazip.com) to get the external IP address of the sensor. This is useful information for the sensor management portion of the app. Please feel free to remove if you'd rather not communicate with that site. Please note that if you do not use this, a lot of the "Sensor Management" fields will be blank.
-- The Tango Honeypot Intelligence Splunk App is built to use JSON formatted data from Kippo, this was made available in the fork maintained by Michel Oosterhof, which can be found on his [github](https://github.com/micheloosterhof/kippo). He recently added this feature, so you will need to grab the latest copy for this app to work properly (if deploying the honeypot and Splunk separately.)
+- The Tango Honeypot Intelligence Splunk App is built to use JSON formatted data from Cowrie by Michel Oosterhof, which can be found on his [github](https://github.com/micheloosterhof/cowrie).
 - You will need to add your own VirusTotal API key to the Splunk app, which can be configured at /opt/splunk/etc/apps/tango/bin/vt.py  The API is free to obtain, you will just need to follow the procedures found on their website to receive one. Please note that you are limited to 4 requests per minute, so if you attempt to do more than that, you will not receive any information. This pertains to the File Analysis section of the Splunk Honeypot Intelligence app.
 
 ## Installation
 
 
-### Sensor Installation (Kippo and Splunk Universal Fowarder)
+### Sensor Installation (Cowrie and Splunk Universal Fowarder)
 This script has been tested on a brand-new install of Ubuntu 14.04 and Cent OS 7 with no reported issues.
 
 To get started, run the commands below and follow the prompts to enter the necessary input.
@@ -24,15 +24,15 @@ To get started, run the commands below and follow the prompts to enter the neces
 git clone https://github.com/aplura/Tango.git /tmp/tango; chmod +x /tmp/tango/sensor.sh; /tmp/tango/sensor.sh
 ```
 
-There are some options you can change in /opt/kippo/kippo.cfg if you choose, however, some of these will break the forwarding of logs (such as changing the listening port set to 2222), however, there are some extra modules, such as mysql or xmpp logging you can enable if you choose, as well as changing the hostname of the honeypot.
+There are some options you can change in /opt/cowrie/cowrie.cfg if you choose, however, some of these will break the forwarding of logs (such as changing the listening port set to 2222), however, there are some extra modules, such as mysql or xmpp logging you can enable if you choose, as well as changing the hostname of the honeypot.
 
-Kippo is highly configurable, so if you wish to add extra commands or output to Kippo, there are tons of resources on github or google, which can help you do that if you choose.
+cowrie is highly configurable, so if you wish to add extra commands or output to cowrie, there are tons of resources on github or google, which can help you do that if you choose.
 
-The script will install the required packages based on the OS, then install Kippo, and lastly, install the Splunk Universal Forwarder. 
+The script will install the required packages based on the OS, then install cowrie, and lastly, install the Splunk Universal Forwarder. 
 
 ### Sensor Installation (Splunk UF Only)
 
-If you already have Kippo honeypots deployed and wish to start analyzing their logs in the Tango Honeypot Intelligence Splunk App, you can run the uf_only.sh script, which will install the Splunk UF on your host, and configure the inputs and outputs necessary to start viewing your logs.
+If you already have cowrie honeypots deployed and wish to start analyzing their logs in the Tango Honeypot Intelligence Splunk App, you can run the uf_only.sh script, which will install the Splunk UF on your host, and configure the inputs and outputs necessary to start viewing your logs.
 
 To get started, run the commands below and follow the prompts to enter the necessary input.
 
@@ -42,7 +42,7 @@ git clone https://github.com/aplura/Tango.git /tmp/tango; chmod +x /tmp/tango/uf
 
 ### Server Installation
 
-In order to view the logs you are sending from Kippo, you will need to install Splunk Enterprise on a server, and install the Tango Honeypot Intelligence for Splunk App from this repo. There are plenty of guides on Splunk's website to get Splunk Enterprise running, however, the basic gist of setting up a server is this:
+In order to view the logs you are sending from cowrie, you will need to install Splunk Enterprise on a server, and install the Tango Honeypot Intelligence for Splunk App from this repo. There are plenty of guides on Splunk's website to get Splunk Enterprise running, however, the basic gist of setting up a server is this:
 
 - Download Splunk Enterprise from Splunk
 - Copy the Tango Honeypot Intelligence for Splunk App into $SPLUNK_HOME/etc/apps/
@@ -233,3 +233,4 @@ Below are some screenshots which illustrate the features of Tango:
 ### Credits
 - https://github.com/kennethreitz for Requests
 - http://virustotal.com/ for their awesome app and API we use
+- Michel Oosterhof for the Cowrie Honeypot
