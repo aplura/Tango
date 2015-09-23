@@ -280,8 +280,8 @@ fi
 #touch /etc/authbind/byport/22 &>> $logfile
 #chown cowrie:cowrie /etc/authbind/byport/22 &>> $logfile
 #chmod 777 /etc/authbind/byport/22 &>> $logfile
-#chown -R cowrie:cowrie /opt/cowrie &>> $logfile
-#cd /opt/cowrie
+chown -R cowrie:cowrie /opt/cowrie &>> $logfile
+cd /opt/cowrie
 #sed -i "s,twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid,authbind --deep twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid," start.sh &>> $logfile
 sudo -u cowrie ./start.sh &>> $logfile
 error_check "Cowrie started successfully"
