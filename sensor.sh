@@ -227,22 +227,21 @@ chown -R splunk:splunk /home/splunk &>> $logfile
 
 ########################################
 
-# Installing Kippo Honeypot
+# Installing Cowrie Honeypot
 
-print_notification "Installing Kippo Honeypot.."
+print_notification "Installing Cowrie Honeypot.."
 cd /opt
-# Using a fork of Kippo from Michel Oosterhof, which adds some new commands and better logging
-git clone https://github.com/micheloosterhof/kippo.git &>> $logfile
-error_check "Cloned Kippo Repository from GitHub"
+git clone https://github.com/micheloosterhof/cowrie.git &>> $logfile
+error_check "Cloned Cowrie Repository from GitHub"
 cd kippo
-cp kippo.cfg.dist kippo.cfg &>> $logfile
+cp cowrie.cfg.dist cowrie.cfg &>> $logfile
 # Changing the Honeypot name as well as changing the port that Kippo listens on
-sed -i "s/#listen_port = 2222/listen_port = 22/" kippo.cfg &>> $logfile
-sed -i "s/#\[database_jsonlog\]/\[database_jsonlog\]/" kippo.cfg &>> $logfile
-sed -i "s/#logfile = log\/kippolog.json/logfile = log\/kippolog.json/" kippo.cfg &>> $logfile
-sed -i "s/\[output_jsonlog\]/#\[output_jsonlog\]/" kippo.cfg &>> $logfile
-sed -i "s/logfile = log\/kippo.json/#logfile = log\/kippo.json/" kippo.cfg &>> $logfile
-print_notification "Configured Kippo Honeypot"
+sed -i "s/#listen_port = 2222/listen_port = 22/" cowrie.cfg &>> $logfile
+#sed -i "s/#\[database_jsonlog\]/\[database_jsonlog\]/" cowrie.cfg &>> $logfile
+#sed -i "s/#logfile = log\/kippolog.json/logfile = log\/kippolog.json/" cowrie.cfg &>> $logfile
+#sed -i "s/\[output_jsonlog\]/#\[output_jsonlog\]/" cowrie.cfg &>> $logfile
+#sed -i "s/logfile = log\/kippo.json/#logfile = log\/kippo.json/" cowrie.cfg &>> $logfile
+print_notification "Configured Cowrie Honeypot"
 
 ########################################
 
@@ -279,9 +278,9 @@ chown kippo:kippo /etc/authbind/byport/22 &>> $logfile
 chmod 777 /etc/authbind/byport/22 &>> $logfile
 chown -R kippo:kippo /opt/kippo &>> $logfile
 cd /opt/kippo
-sed -i "s,twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid,authbind --deep twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid," start.sh &>> $logfile
+#sed -i "s,twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid,authbind --deep twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid," start.sh &>> $logfile
 sudo -u kippo ./start.sh &>> $logfile
-error_check "Kippo started successfully"
+error_check "Cowrie started successfully"
 print_notification "Authbind Configured to use Port 22"
 
 ########################################
