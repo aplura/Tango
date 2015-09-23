@@ -5,7 +5,7 @@
 
 #Disclaimer. Continues for yes, quits for no. 
 while true; do
-    read -p "[!] You are about to install Kippo and the Splunk Universal Forwarder. By running this installer, you accept Splunk's EULA. Do you wish to proceed? (Yes/No)" yn
+    read -p "[!] You are about to install Cowrie and the Splunk Universal Forwarder. By running this installer, you accept Splunk's EULA. Do you wish to proceed? (Yes/No)" yn
     case $yn in
         [Yy]* ) break;;
         [Nn]* ) exit;;
@@ -146,9 +146,12 @@ fi
 if [ -f /etc/debian_version ]; then
     apt-get -y update &>> $logfile
     print_notification "Installing required packages via apt-get.."
-    apt-get -y install python-dev python-openssl python-pyasn1 authbind git python-pip libcurl4-gnutls-dev libssl-dev openssh-server&>> $logfile
+    apt-get -y install python-dev python-openssl python-pyasn1 authbind git libcurl4-gnutls-dev libssl-dev openssh-server&>> $logfile
     error_check 'Apt Package Installation'
     
+    curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
+    python get-pip.py
+
     print_notification "Installing required python packages via pip.."
     pip install pycrypto service_identity requests ipwhois twisted &>> $logfile
     error_check 'Python pip'
@@ -201,25 +204,25 @@ chown -R splunk:splunk /home/splunk &>> $logfile
 
 # Adding splunk user for service to run as. Shell is set to /bin/false.
 
-print_status "Checking for kippo user and group.."
+print_status "Checking for cowrie user and group.."
 
-getent passwd kippo &>> $logfile
+getent passwd cowrie &>> $logfile
 if [ $? -eq 0 ]; then
-    print_status "kippo user exists. Verifying group exists.."
-    id -g kippo &>> $logfile
+    print_status "cowrie user exists. Verifying group exists.."
+    id -g cowrie &>> $logfile
     if [ $? -eq 0 ]; then
-        print_notification "kippo group exists."
+        print_notification "cowrie group exists."
     else
-        print_notification "kippo group does not exist. Creating.."
-        groupadd kippo &>> $logfile
-        usermod -G kippo kippo &>> $logfile
-        error_check 'Creation of kippo group and Addition of kippo user to group'
+        print_notification "cowrie group does not exist. Creating.."
+        groupadd cowrie &>> $logfile
+        usermod -G cowrie cowrie &>> $logfile
+        error_check 'Creation of cowrie group and Addition of cowrie user to group'
     fi
 else
-    print_status "Creating kippo user and group.."
-    groupadd kippo &>> $logfile
-    useradd -g kippo kippo -d /home/splunk -s /bin/false &>> $logfile
-    error_check 'Kippo user and group creation'
+    print_status "Creating cowrie user and group.."
+    groupadd cowrie &>> $logfile
+    useradd -g cowrie cowrie -d /home/splunk -s /bin/false &>> $logfile
+    error_check 'Cowrie user and group creation'
     
 fi
 
@@ -233,7 +236,7 @@ print_notification "Installing Cowrie Honeypot.."
 cd /opt
 git clone https://github.com/micheloosterhof/cowrie.git &>> $logfile
 error_check "Cloned Cowrie Repository from GitHub"
-cd kippo
+cd cowrie
 cp cowrie.cfg.dist cowrie.cfg &>> $logfile
 # Changing the Honeypot name as well as changing the port that Kippo listens on
 sed -i "s/#listen_port = 2222/listen_port = 22/" cowrie.cfg &>> $logfile
@@ -274,12 +277,12 @@ fi
 # Setting up authbind to allow kippo user to bind to privileged port
 print_notification "Configuring Authbind"
 touch /etc/authbind/byport/22 &>> $logfile
-chown kippo:kippo /etc/authbind/byport/22 &>> $logfile
+chown cowrie:cowrie /etc/authbind/byport/22 &>> $logfile
 chmod 777 /etc/authbind/byport/22 &>> $logfile
-chown -R kippo:kippo /opt/kippo &>> $logfile
-cd /opt/kippo
+chown -R cowrie:cowrie /opt/cowrie &>> $logfile
+cd /opt/cowrie
 #sed -i "s,twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid,authbind --deep twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid," start.sh &>> $logfile
-sudo -u kippo ./start.sh &>> $logfile
+sudo -u cowrie ./start.sh &>> $logfile
 error_check "Cowrie started successfully"
 print_notification "Authbind Configured to use Port 22"
 
