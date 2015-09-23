@@ -15,7 +15,7 @@
       <title>Top Domains Seen</title>
       <table>
         <search>
-          <query>sourcetype=kippojson | top domain | fields - percent | rename domain AS "Domain" count AS "Count"</query>
+          <query>sourcetype=cowrie | top domain | fields - percent | rename domain AS "Domain" count AS "Count"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -30,7 +30,7 @@
       <title>Same URI on Multiple Domains</title>
       <table>
         <search>
-          <query>sourcetype=kippojson | stats dc(domain) as Count values(domain) as domain by uri | where Count &gt; 1 | sort - Count | fields - Count</query>
+          <query>sourcetype=cowrie | stats dc(domain) as Count values(domain) as domain by uri | where Count &gt; 1 | sort - Count | fields - Count</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -47,7 +47,7 @@
       <title>Latest IP Addresses Seen</title>
       <table>
         <search>
-          <query>sourcetype=kippojson | transaction session |  search ip=* | table ip, command, session, src_ip, _time | rename ip AS "IP Address" session AS "Session" src_ip AS "Attacker IP", _time AS "Time", command AS "Command" | eval Time=strftime(Time,"%m/%d/%y %H:%M:%S") | sort - Time</query>
+          <query>sourcetype=cowrie | transaction session |  search ip=* | table ip, command, session, src_ip, _time | rename ip AS "IP Address" session AS "Session" src_ip AS "Attacker IP", _time AS "Time", command AS "Command" | eval Time=strftime(Time,"%m/%d/%y %H:%M:%S") | sort - Time</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>

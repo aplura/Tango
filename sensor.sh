@@ -125,14 +125,14 @@ fi
 arch=`uname -m`
 
 if [[ $arch == "x86_64" ]]; then
-    INSTALL_FILE="splunkforwarder-6.1.6-249101-Linux-x86_64.tgz"
+    INSTALL_FILE="splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-x86_64.tgz"
     print_notification "System is $arch. Downloading: $INSTALL_FILE to /opt.."
-    wget -O /opt/splunkforwarder-6.1.6-249101-Linux-x86_64.tgz 'http://www.splunk.com/page/download_track?file=6.1.6/universalforwarder/linux/splunkforwarder-6.1.6-249101-Linux-x86_64.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=x86_64&version=6.1.6&product=splunk&typed=release' &>> $logfile
+    wget -O splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-x86_64.tgz 'http://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=6.3.0&product=universalforwarder&filename=splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-x86_64.tgz&wget=true' &>> $logfile    
     error_check 'Splunk Forwarder Download'
 elif [[ $arch == "i686" ]]; then
-    INSTALL_FILE="splunkforwarder-6.1.6-249101-Linux-i686.tgz"
+    INSTALL_FILE="splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-i686.tgz"
     print_notification "System is $arch. Downloading: $INSTALL_FILE to /opt.."
-    wget -O /opt/splunkforwarder-6.1.6-249101-Linux-i686.tgz 'http://www.splunk.com/page/download_track?file=6.1.6/universalforwarder/linux/splunkforwarder-6.1.6-249101-Linux-i686.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=i686&version=6.1.6&product=splunk&typed=release' &>> $logfile
+    wget -O splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-i686.tgz 'http://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86&platform=linux&version=6.3.0&product=universalforwarder&filename=splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-i686.tgz&wget=true' &>> $logfile    
     error_check 'Splunk Forwarder Download'
 else
     print_error "System arch is not x86_64 or i686. Tango Honeypot is not yet supported on other CPU architectures."
@@ -149,9 +149,9 @@ if [ -f /etc/debian_version ]; then
     apt-get -y install python-dev python-openssl python-pyasn1 authbind git libcurl4-gnutls-dev libssl-dev openssh-server&>> $logfile
     error_check 'Apt Package Installation'
     
-    curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
-    python get-pip.py
-
+    curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" &>> $logfile
+    python get-pip.py &>> $logfile
+    print_notification "Installed pip"
     print_notification "Installing required python packages via pip.."
     pip install pycrypto service_identity requests ipwhois twisted &>> $logfile
     error_check 'Python pip'

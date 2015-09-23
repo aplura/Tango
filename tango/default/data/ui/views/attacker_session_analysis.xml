@@ -15,7 +15,7 @@
       <title>Human vs. Bot Identification (Best Guess)</title>
       <chart>
         <search>
-          <query>sourcetype=kippojson client=* | eval identification=if(searchmatch("client=*openssh*"),"Human","Bot")  | stats count by identification</query>
+          <query>sourcetype=cowrie version=* | eval identification=if(searchmatch("version=*openssh*"),"Human","Bot")  | stats count by identification</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -26,7 +26,7 @@
         <option name="charting.axisTitleY2.visibility">visible</option>
         <option name="charting.axisX.scale">linear</option>
         <option name="charting.axisY.scale">linear</option>
-        <option name="charting.axisY2.enabled">false</option>
+        <option name="charting.axisY2.enabled">0</option>
         <option name="charting.axisY2.scale">inherit</option>
         <option name="charting.chart">pie</option>
         <option name="charting.chart.bubbleMaximumSize">50</option>
@@ -41,13 +41,15 @@
         <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
         <option name="charting.legend.placement">right</option>
         <option name="charting.seriesColors">[0xF03B4E,0x40EBBB,0xB3B3B5]</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
       </chart>
     </panel>
     <panel>
       <title>SSH Versions</title>
       <table>
         <search>
-          <query>sourcetype=kippojson | stats count by client |  rename client AS "Attacker SSH Versions" | sort - count</query>
+          <query>sourcetype=cowrie | stats count by version |  rename version AS "Attacker SSH Versions" | sort - count</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -64,7 +66,7 @@
       <title>Environment Details</title>
       <table>
         <search>
-          <query>sourcetype=kippojson  | stats count by terminal_size | rename terminal_size AS "Session Environment Details"</query>
+          <query>sourcetype=cowrie  | stats count by terminal_size | rename terminal_size AS "Session Environment Details"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -79,13 +81,22 @@
       <title>Sessions with Command Interaction</title>
       <single>
         <search>
-          <query>sourcetype=kippojson command=* | stats dc(session) AS dcount | appendcols [search sourcetype=kippojson | stats dc(session) AS ddcount] | eval total=(dcount/ddcount*100) | fields - dcount ddcount  | eval total=round(total,2)</query>
+          <query>sourcetype=cowrie input=* | stats dc(session) AS dcount | appendcols [search sourcetype=cowrie | stats dc(session) AS ddcount] | eval total=(dcount/ddcount*100) | fields - dcount ddcount  | eval total=round(total,2)</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="underLabel">Percent</option>
         <option name="linkView">search</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
       </single>
     </panel>
   </row>
@@ -94,7 +105,7 @@
       <title>Top Commands Entered During Session</title>
       <table>
         <search>
-          <query>sourcetype=kippojson | top command | fields - percent | rename command AS "Command Entered"</query>
+          <query>sourcetype=cowrie | top input | fields - percent | rename input AS "Command Entered"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -109,7 +120,7 @@
       <title>Rare Commands Entered During Session</title>
       <table>
         <search>
-          <query>sourcetype=kippojson | rare command | fields - percent | rename command AS "Command Entered"</query>
+          <query>sourcetype=cowrie | rare input | fields - percent | rename input AS "Command Entered"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>

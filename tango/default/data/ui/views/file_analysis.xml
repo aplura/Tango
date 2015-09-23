@@ -15,7 +15,7 @@
       <title>Latest Files Downloaded</title>
       <table>
         <search>
-          <query>sourcetype=kippojson  [ search sourcetype=kippojson shasum=* | stats count by session | fields session ] | transaction session | table url, shasum, src_ip, host, session, _time | rename url AS "URL" shasum AS "SHA256 Hash" host AS "Sensor" session AS "Session" _time AS "Timestamp" src_ip AS "Attacker IP"| eval Time=strftime(Timestamp,"%m/%d/%y %H:%M:%S") | fields - Timestamp</query>
+          <query>sourcetype=cowrie  [ search sourcetype=cowrie shasum=* | stats count by session | fields session ] | transaction session | table url, shasum, src_ip, host, session, _time | rename url AS "URL" shasum AS "SHA256 Hash" host AS "Sensor" session AS "Session" _time AS "Timestamp" src_ip AS "Attacker IP"| eval Time=strftime(Timestamp,"%m/%d/%y %H:%M:%S") | fields - Timestamp</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -32,7 +32,7 @@
       <title>Latest Attempted File Downloads</title>
       <table>
         <search>
-          <query>sourcetype=kippojson [search sourcetype=kippojson attempted_url=* | stats count by session | fields session ] | transaction session  | search NOT shasum=* | table attempted_url,src_ip, host,  session, _time | rename url AS "URL" shasum AS "SHA256 Hash" host AS "Sensor" session AS "Session" _time AS "Timestamp" attempted_url AS "URL" src_ip AS "Attacker IP" | eval Time=strftime(Timestamp,"%m/%d/%y %H:%M:%S") | fields - Timestamp</query>
+          <query>sourcetype=cowrie [search sourcetype=cowrie attempted_url=* | stats count by session | fields session ] | transaction session  | search NOT shasum=* | table attempted_url,src_ip, host,  session, _time | rename url AS "URL" shasum AS "SHA256 Hash" host AS "Sensor" session AS "Session" _time AS "Timestamp" attempted_url AS "URL" src_ip AS "Attacker IP" | eval Time=strftime(Timestamp,"%m/%d/%y %H:%M:%S") | fields - Timestamp</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>

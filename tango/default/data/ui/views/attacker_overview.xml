@@ -29,40 +29,82 @@
       <single>
         <title>Successful Logins</title>
         <search>
-          <query>sourcetype=kippojson eventtype=login_success | timechart span=24h count | reverse</query>
+          <query>sourcetype=cowrie eventtype=login_success | timechart span=24h count | reverse</query>
           <earliest>-48h</earliest>
           <latest></latest>
         </search>
         <option name="field">count</option>
         <option name="linkView">search</option>
         <option name="drilldown">none</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
       </single>
       <single>
         <title>Failed Logins</title>
         <search>
-          <query>sourcetype=kippojson eventtype=login_attempt | timechart span=24h count | reverse</query>
+          <query>sourcetype=cowrie eventtype=login_attempt | timechart span=24h count | reverse</query>
           <earliest>-48h</earliest>
           <latest></latest>
         </search>
         <option name="field">count</option>
         <option name="linkView">search</option>
         <option name="drilldown">none</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
       </single>
       <single>
         <title>Distinct IP Addresses</title>
-        <searchString>sourcetype=kippojson | timechart span=24h dc(src_ip) as count</searchString>
-        <earliestTime>-48h</earliestTime>
+        <search>
+          <query>sourcetype=cowrie | timechart span=24h dc(src_ip) as count</query>
+          <earliest>-48h</earliest>
+          <latest></latest>
+        </search>
         <option name="field">count</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
+        <option name="linkView">search</option>
+        <option name="drilldown">none</option>
       </single>
       <single>
         <title>Files Downloaded</title>
         <search>
-          <query>sourcetype=kippojson shasum=* | timechart span=24h dc(shasum) as count</query>
+          <query>sourcetype=cowrie shasum=* | timechart span=24h dc(shasum) as count</query>
           <earliest>-48h</earliest>
+          <latest></latest>
         </search>
         <option name="field">count</option>
         <option name="linkView">search</option>
         <option name="drilldown">none</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
       </single>
     </panel>
   </row>
@@ -71,7 +113,7 @@
       <title>Login Attempts vs Successes</title>
       <chart>
         <search>
-          <query>sourcetype=kippojson | timechart count by eventtype usenull=F | rename login_attempt AS "Login Attempt" login_success AS "Login Success"</query>
+          <query>sourcetype=cowrie | timechart count by eventtype usenull=F | rename login_attempt AS "Login Attempt" login_success AS "Login Success"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -82,7 +124,7 @@
         <option name="charting.axisTitleY2.visibility">visible</option>
         <option name="charting.axisX.scale">linear</option>
         <option name="charting.axisY.scale">linear</option>
-        <option name="charting.axisY2.enabled">false</option>
+        <option name="charting.axisY2.enabled">0</option>
         <option name="charting.axisY2.scale">inherit</option>
         <option name="charting.chart">area</option>
         <option name="charting.chart.bubbleMaximumSize">50</option>
@@ -97,13 +139,15 @@
         <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
         <option name="charting.legend.placement">bottom</option>
         <option name="charting.seriesColors">[0xF03B4E,0x40EBBB,0xB3B3B5]</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
       </chart>
     </panel>
     <panel>
       <title>Latest Successful Logins</title>
       <table>
         <search>
-          <query>sourcetype=kippojson | transaction session | search eventtype=login_success | iplocation prefix=iploc_ allfields=true src_ip | table src_ip, iploc_Country, _time| fields - percent | eval src_ip_country_name = if(isnull(iploc_Country),"Unknown",iploc_Country) | eval Time=strftime(_time,"%m/%d/%y %H:%M:%S")  | rename src_ip AS "Source IP" count as "Count" src_ip_country_name AS "Country" Time AS "Login Time" iploc_Country AS "Country"| fields - _time | sort 10 - "Login Time"</query>
+          <query>sourcetype=cowrie | transaction session | search eventtype=login_success | iplocation prefix=iploc_ allfields=true src_ip | table src_ip, iploc_Country, _time| fields - percent | eval src_ip_country_name = if(isnull(iploc_Country),"Unknown",iploc_Country) | eval Time=strftime(_time,"%m/%d/%y %H:%M:%S")  | rename src_ip AS "Source IP" count as "Count" src_ip_country_name AS "Country" Time AS "Login Time" iploc_Country AS "Country"| fields - _time | sort 10 - "Login Time"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -118,7 +162,7 @@
       <title>Attackers Logging Into Multiple Sensors</title>
       <table>
         <search>
-          <query>sourcetype=kippojson | transaction session | search eventtype=login_success | stats dc(host) AS count, values(host) AS Sensors by src_ip | where count &gt; 1 | sort 10 -count | rename src_ip AS "Attacker IP" | fields - count | rename "Sensors" AS "Sensors Logged Into"</query>
+          <query>sourcetype=cowrie | transaction session | search eventtype=login_success | stats dc(host) AS count, values(host) AS Sensors by src_ip | where count &gt; 1 | sort 10 -count | rename src_ip AS "Attacker IP" | fields - count | rename "Sensors" AS "Sensors Logged Into"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>

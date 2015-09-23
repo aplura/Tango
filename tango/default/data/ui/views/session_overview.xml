@@ -26,7 +26,7 @@
       </input>
       <table id="master">
         <search>
-          <query>sourcetype=kippojson host=$sensor$ |  stats earliest(_time) as Time, values(src_ip) AS "Attacker IP", values(host) as "Sensor", count(command) as msgcount by session | where msgcount &gt; 1 | eval Time=strftime(Time,"%m/%d/%y %H:%M:%S") | rename msgcount AS "Message Count" session AS "Session"| sort - Time</query>
+          <query>sourcetype=cowrie host=$sensor$ |  stats earliest(_time) as Time, values(src_ip) AS "Attacker IP", values(host) as "Sensor", count(input) as msgcount by session | where msgcount &gt; 1 | eval Time=strftime(Time,"%m/%d/%y %H:%M:%S") | rename msgcount AS "Message Count" session AS "Session"| sort - Time</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -51,7 +51,7 @@
       <title>Session Time</title>
       <single>
         <search>
-          <query>sourcetype=kippojson session=$session$ | transaction session  | rename _time as starttime |  eval starttime=strftime(starttime,"%m/%d/%y %H:%M:%S") | table starttime</query>
+          <query>sourcetype=cowrie session=$session$ | transaction session  | rename _time as starttime |  eval starttime=strftime(starttime,"%m/%d/%y %H:%M:%S") | table starttime</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -62,10 +62,19 @@
         <option name="count">10</option>
         <option name="linkView">search</option>
         <option name="underLabel">Start Time</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
       </single>
       <single>
         <search>
-          <query>sourcetype=kippojson session=$session$ | transaction session | eval starttime=_time | eval endtime=_time+duration | eval starttime=strftime(starttime,"%m/%d/%y %H:%M:%S") | eval endtime=strftime(endtime,"%m/%d/%y %H:%M:%S") | table endtime</query>
+          <query>sourcetype=cowrie session=$session$ | transaction session | eval starttime=_time | eval endtime=_time+duration | eval starttime=strftime(starttime,"%m/%d/%y %H:%M:%S") | eval endtime=strftime(endtime,"%m/%d/%y %H:%M:%S") | table endtime</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -76,16 +85,34 @@
         <option name="count">10</option>
         <option name="underLabel">End Time</option>
         <option name="linkView">search</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
       </single>
       <single>
         <search>
-          <query>sourcetype=kippojson session=$session$ | transaction session | table duration | eval duration=round(duration/60,2)</query>
+          <query>sourcetype=cowrie session=$session$ | transaction session | table duration | eval duration=round(duration/60,2)</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="linkView">search</option>
         <option name="underLabel">Duration</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
       </single>
     </panel>
   </row>
@@ -94,7 +121,7 @@
       <title>Passwords Accepted</title>
       <table>
         <search>
-          <query>sourcetype=kippojson session=$session$ eventtype=login_success | table password | rename password AS "Password Accepted"</query>
+          <query>sourcetype=cowrie session=$session$ eventtype=login_success | table password | rename password AS "Password Accepted"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -109,7 +136,7 @@
       <title>Passwords Attempted</title>
       <table>
         <search>
-          <query>sourcetype=kippojson session=$session$   eventtype=login_attempt | table password | rename password AS "Password Attempted"</query>
+          <query>sourcetype=cowrie session=$session$   eventtype=login_attempt | table password | rename password AS "Password Attempted"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -127,7 +154,7 @@
       <table id="detail" depends="$session$">
         <title>Session: $session$</title>
         <search>
-          <query>sourcetype=kippojson session=$session$ command=* | table command, timestamp | rename command AS "Command" timestamp AS "Timestamp"</query>
+          <query>sourcetype=cowrie session=$session$ input=* | table input, timestamp | rename input AS "Command" timestamp AS "Timestamp"</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
@@ -172,7 +199,7 @@
       <title>Files Downloaded During Session</title>
       <table>
         <search>
-          <query>sourcetype=kippojson [ search sourcetype=kippojson shasum=* session=$session$ | stats count by session | fields session ] | transaction session | table url, shasum | dedup shasum | lookup virustotal.csv "SHA256 Hash" AS shasum OUTPUT "Vendor Signatures" | makemv delim="|" "Vendor Signatures" |fillnull value="Unknown" "Vendor Signatures"| mvexpand "Vendor Signatures" | dedup "Vendor Signatures"  | stats values(url) AS "URL" values(shasum) AS "SHA256 Hash" values("Vendor Signatures") AS "Vendor Signatures"</query>
+          <query>sourcetype=cowrie [ search sourcetype=cowrie shasum=* session=$session$ | stats count by session | fields session ] | transaction session | table url, shasum | dedup shasum | lookup virustotal.csv "SHA256 Hash" AS shasum OUTPUT "Vendor Signatures" | makemv delim="|" "Vendor Signatures" |fillnull value="Unknown" "Vendor Signatures"| mvexpand "Vendor Signatures" | dedup "Vendor Signatures"  | stats values(url) AS "URL" values(shasum) AS "SHA256 Hash" values("Vendor Signatures") AS "Vendor Signatures"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -189,7 +216,7 @@
       <title>Raw Session Log</title>
       <table>
         <search>
-          <query>sourcetype=kippojson session=$session$  | table _raw | sort + _time | rename _raw AS "Raw Logs"</query>
+          <query>sourcetype=cowrie session=$session$  | table _raw | sort + _time | rename _raw AS "Raw Logs"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>

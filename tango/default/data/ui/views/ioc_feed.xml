@@ -15,7 +15,7 @@
       <title>Indicator Count</title>
       <single>
         <search>
-          <query>sourcetype=kippojson | stats dc(src_ip) AS count</query>
+          <query>sourcetype=cowrie | stats dc(src_ip) AS count</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -26,10 +26,19 @@
         <option name="count">10</option>
         <option name="underLabel">IP Addresses</option>
         <option name="linkView">search</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
       </single>
       <single>
         <search>
-          <query>sourcetype=kippojson | stats dc(attempted_url)</query>
+          <query>sourcetype=cowrie | stats dc(attempted_url)</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -40,36 +49,72 @@
         <option name="count">10</option>
         <option name="underLabel">URLs</option>
         <option name="linkView">search</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
       </single>
       <single>
         <search>
-          <query>sourcetype=kippojson | stats dc(shasum)</query>
+          <query>sourcetype=cowrie | stats dc(shasum)</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="linkView">search</option>
         <option name="underLabel">SHA File Hashes</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
       </single>
       <single>
         <search>
-          <query>sourcetype=kippojson | stats dc(domain)</query>
+          <query>sourcetype=cowrie | stats dc(domain)</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="linkView">search</option>
         <option name="underLabel">domains</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
       </single>
       <single>
         <search>
-          <query>sourcetype=kippojson | stats dc(filename)</query>
+          <query>sourcetype=cowrie | stats dc(filename)</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="linkView">search</option>
         <option name="underLabel">filenames</option>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="numberPrecision">0</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="useColors">0</option>
+        <option name="useThousandSeparators">1</option>
       </single>
     </panel>
   </row>
@@ -78,7 +123,7 @@
       <title>IP Addresses</title>
       <table>
         <search>
-          <query>sourcetype=kippojson | stats count by src_ip | fields src_ip | rename src_ip AS "IP Address"</query>
+          <query>sourcetype=cowrie | stats count by src_ip | fields src_ip | rename src_ip AS "IP Address"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -93,7 +138,7 @@
       <title>Potentially Malicious URLs</title>
       <table>
         <search>
-          <query>sourcetype=kippojson | stats count by attempted_url | fields attempted_url | rename attempted_url AS "URL"</query>
+          <query>sourcetype=cowrie | stats count by attempted_url | fields attempted_url | rename attempted_url AS "URL"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -110,7 +155,7 @@
       <title>SHA File Hashes</title>
       <table>
         <search>
-          <query>sourcetype=kippojson | stats count by shasum | fields shasum | rename shasum AS "SHA Hash"</query>
+          <query>sourcetype=cowrie | stats count by shasum | fields shasum | rename shasum AS "SHA Hash"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -125,7 +170,7 @@
       <title>Potentially Malicious Domains</title>
       <table>
         <search>
-          <query>sourcetype=kippojson | stats count by domain | fields domain | rename domain AS "Domain"</query>
+          <query>sourcetype=cowrie | stats count by domain | fields domain | rename domain AS "Domain"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
@@ -142,7 +187,7 @@
       <title>File Names</title>
       <table>
         <search>
-          <query>sourcetype=kippojson filename=* | stats count by filename | fields filename | rename filename AS "Filename"</query>
+          <query>sourcetype=cowrie filename=* | stats count by filename | fields filename | rename filename AS "Filename"</query>
           <earliest>$field1.earliest$</earliest>
           <latest>$field1.latest$</latest>
         </search>
