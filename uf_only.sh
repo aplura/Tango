@@ -4,7 +4,7 @@
 
 #Disclaimer. Continues for yes, quits for no.
 while true; do
-    read -p "[!] You are about to install Kippo and the Splunk Universal Forwarder. By running this installer, you accept Splunk's EULA. Do you wish to proceed? (Yes/No)" yn
+    read -p "[!] You are about to install Cowrie and the Splunk Universal Forwarder. By running this installer, you accept Splunk's EULA. Do you wish to proceed? (Yes/No)" yn
     case $yn in
         [Yy]* ) break;;
         [Nn]* ) exit;;
@@ -22,7 +22,7 @@ read -e -p "[?] Enter the Splunk Indexer to forward logs to: (example: splunk.te
 read -e -p "[?] Enter Sensor name: (example: hp-US-Las_Vegas-01) " HOST_NAME
 
 #Kippo Logs
-read -e -p "[?] Enter the full path to where your Kippo logs are stored: (example:/opt/kippo/log/) " KIPPO_LOG_LOCATION
+read -e -p "[?] Enter the full path to where your Cowrie logs are stored: (example:/opt/cowrie/log/) " KIPPO_LOG_LOCATION
 
 ########################################
 
@@ -85,20 +85,20 @@ fi
 #SPLUNK_INDEXER: This is the box that is going to process your splunk logs. Can be a hostname or an IP address. The default port is 9997/tcp. #
 #SPLUNK_INDEXER="splunkserver.yourdomain.com:9997"
 
-#HOST_NAME: This controls what name your kippo server will have when reviewing its data in the Tango Splunk App. #
+#HOST_NAME: This controls what name your cowrie server will have when reviewing its data in the Tango Splunk App. #
 # Use unique names. Suggestion: "hp-{country code}-{city}-{number}" such as: hp-US-Las_Vegas-01 #
 #HOST_NAME="hp-countrycode-city-01"
 
-#KIPPO_LOG_LOCATION: What is the location of your kippo honeypot logs? #
-#For most bang for the buck, you'll want to send splunk "kippolog.json logs. #
-#Assuming you are running Michel Oosterhof's branch of kippo (https://github.com/micheloosterhof/kippo).. #
-#You should be getting shiny JSON logs by default. If not find the following section in kippo.cfg: #
+#KIPPO_LOG_LOCATION: What is the location of your cowrie honeypot logs? #
+#For most bang for the buck, you'll want to send splunk "cowrielog.json logs. #
+#Assuming you are running Michel Oosterhof's branch of cowrie (https://github.com/micheloosterhof/kippo).. #
+#You should be getting shiny JSON logs by default. If not find the following section in cowrie.cfg: #
 #[database_jsonlog3]
-#logfile = log/kippolog.json#
-#Verify that these lines are uncommented. The log file (as indicated above will be in the kippo/log/kippolog.json.* #
-#Set KIPPO_LOG_LOCATION to the absolutely directory path of the directory containing your kippolog.json files 
-#For example, /opt/kippo/log/ or /home/user/kippo/log/#
-#KIPPO_LOG_LOCATION='/opt/kippo/log/'
+#logfile = log/cowrielog.json#
+#Verify that these lines are uncommented. The log file (as indicated above will be in the cowrie/log/kippolog.json.* #
+#Set KIPPO_LOG_LOCATION to the absolutely directory path of the directory containing your cowrielog.json files 
+#For example, /opt/cowrie/log/ or /home/user/kippo/log/#
+#KIPPO_LOG_LOCATION='/opt/cowrie/log/'
 
 ########################################
 
@@ -124,15 +124,15 @@ fi
 arch=`uname -m`
 
 if [[ $arch == "x86_64" ]]; then
-	INSTALL_FILE="splunkforwarder-6.1.6-249101-Linux-x86_64.tgz"
-	print_notification "System is $arch. Downloading: $INSTALL_FILE to /opt.."
-	wget -O /opt/splunkforwarder-6.1.6-249101-Linux-x86_64.tgz 'http://www.splunk.com/page/download_track?file=6.1.6/universalforwarder/linux/splunkforwarder-6.1.6-249101-Linux-x86_64.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=x86_64&version=6.1.6&product=splunk&typed=release' &>> $logfile
-	error_check 'Splunk Forwarder Download'
+     INSTALL_FILE="splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-x86_64.tgz"
+     print_notification "System is $arch. Downloading: $INSTALL_FILE to /opt.."
+     wget -O /opt/splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-x86_64.tgz 'http://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=6.3.0&product=universalforwarder&filename=splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-x86_64.tgz&wget=true' &>> $logfile	
+    error_check 'Splunk Forwarder Download'
 elif [[ $arch == "i686" ]]; then
-	INSTALL_FILE="splunkforwarder-6.1.6-249101-Linux-i686.tgz"
-	print_notification "System is $arch. Downloading: $INSTALL_FILE to /opt.."
-	wget -O /opt/splunkforwarder-6.1.6-249101-Linux-i686.tgz 'http://www.splunk.com/page/download_track?file=6.1.6/universalforwarder/linux/splunkforwarder-6.1.6-249101-Linux-i686.tgz&ac=&wget=true&name=wget&platform=Linux&architecture=i686&version=6.1.6&product=splunk&typed=release' &>> $logfile
-	error_check 'Splunk Forwarder Download'
+    INSTALL_FILE="splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-i686.tgz"
+    print_notification "System is $arch. Downloading: $INSTALL_FILE to /opt.."
+    wget -O /opt/splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-i686.tgz 'http://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86&platform=linux&version=6.30&product=universalforwarder&filename=splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-i686.tgz&wget=true' &>> $logfile	
+    error_check 'Splunk Forwarder Download'
 else
 	print_error "System arch is not x86_64 or i686. Tango Honeypot is not yet supported on other CPU architectures."
 	exit 1
@@ -144,13 +144,15 @@ fi
 
 if [ -f /etc/debian_version ]; then
     apt-get -y update &>> $logfile
-	print_notification "Installing required packages via apt-get.."
-    apt-get -y install python-dev python-openssl python-pyasn1 authbind git python-pip libgnutls-dev libcurl4-gnutls-dev libssl-dev &>> $logfile
-	error_check 'Apt Package Installation'
-	
-	print_notification "Installing required python packages via pip.."
+    print_notification "Installing required packages via apt-get.."
+    apt-get -y install python-dev python-openssl python-pyasn1 authbind git libgnutls-dev libcurl4-gnutls-dev libssl-dev &>> $logfile
+    curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" &>> $logfile
+    python get-pip.py &>> $logfile	
+    error_check 'Apt Package Installation'
+    iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222	
+    print_notification "Installing required python packages via pip.."
     pip install pycurl service_identity ipwhois &>> $logfile
-	error_check 'Python pip'
+    error_check 'Python pip'
 elif [ -f /etc/redhat-release ]; then
     yum -y update &>> $logfile
 	print_notification "Installing required packages via yum.."
@@ -225,14 +227,14 @@ print_notification "Configuring /opt/splunkforwarder/etc/apps/tango_input/defaul
 
 cd /opt/splunkforwarder/etc/apps/tango_input/default 
 sed -i "s/test/$HOST_NAME/" inputs.conf &>> $logfile
-sed -i "s,/opt/kippo/log/,${KIPPO_LOG_LOCATION}," inputs.conf &>> $logfile
+sed -i "s/opt/cowrie/log/,${KIPPO_LOG_LOCATION}," inputs.conf &>> $logfile
 sed -i "s/test/$SPLUNK_INDEXER/" outputs.conf &>> $logfile
 
 chown -R splunk:splunk /opt/splunkforwarder &>> $logfile
 /opt/splunkforwarder/bin/splunk restart &>> $logfile
 error_check 'Tango_input installation'
 
-print_notification "If the location of your kippo log files changes or the hostname/ip of the indexer changes, you will need to modify /opt/splunkfowarder/etc/apps/tango_input/default/inputs.conf and outputs.conf respectively."
+print_notification "If the location of your cowrie log files changes or the hostname/ip of the indexer changes, you will need to modify /opt/splunkfowarder/etc/apps/tango_input/default/inputs.conf and outputs.conf respectively."
 
 print_good "Install Completed. The splunk forwarder should be reporting and sending data to your indexer. Log file is located at /var/log/tango_install.log"
 
