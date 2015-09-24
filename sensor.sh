@@ -127,12 +127,12 @@ arch=`uname -m`
 if [[ $arch == "x86_64" ]]; then
     INSTALL_FILE="splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-x86_64.tgz"
     print_notification "System is $arch. Downloading: $INSTALL_FILE to /opt.."
-    wget -O splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-x86_64.tgz 'http://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=6.3.0&product=universalforwarder&filename=splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-x86_64.tgz&wget=true' &>> $logfile    
+    wget -O /opt/splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-x86_64.tgz 'http://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86_64&platform=linux&version=6.3.0&product=universalforwarder&filename=splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-x86_64.tgz&wget=true' &>> $logfile    
     error_check 'Splunk Forwarder Download'
 elif [[ $arch == "i686" ]]; then
     INSTALL_FILE="splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-i686.tgz"
     print_notification "System is $arch. Downloading: $INSTALL_FILE to /opt.."
-    wget -O splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-i686.tgz 'http://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86&platform=linux&version=6.3.0&product=universalforwarder&filename=splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-i686.tgz&wget=true' &>> $logfile    
+    wget -O /opt/splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-i686.tgz 'http://www.splunk.com/bin/splunk/DownloadActivityServlet?architecture=x86&platform=linux&version=6.3.0&product=universalforwarder&filename=splunkforwarder-6.3.0-aa7d4b1ccb80-Linux-i686.tgz&wget=true' &>> $logfile    
     error_check 'Splunk Forwarder Download'
 else
     print_error "System arch is not x86_64 or i686. Tango Honeypot is not yet supported on other CPU architectures."
