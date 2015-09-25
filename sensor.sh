@@ -279,7 +279,8 @@ fi
 #print_notification "Configuring Authbind"
 #touch /etc/authbind/byport/22 &>> $logfile
 #chown cowrie:cowrie /etc/authbind/byport/22 &>> $logfile
-#chmod 777 /etc/authbind/byport/22 &>> $logfile
+cd /opt/cowrie/log
+chmod 777 * &>> $logfile
 chown -R cowrie:cowrie /opt/cowrie &>> $logfile
 cd /opt/cowrie
 #sed -i "s,twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid,authbind --deep twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid," start.sh &>> $logfile
