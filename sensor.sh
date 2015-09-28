@@ -279,8 +279,6 @@ fi
 #print_notification "Configuring Authbind"
 #touch /etc/authbind/byport/22 &>> $logfile
 #chown cowrie:cowrie /etc/authbind/byport/22 &>> $logfile
-cd /opt/cowrie/log
-chmod 777 * &>> $logfile
 chown -R cowrie:cowrie /opt/cowrie &>> $logfile
 cd /opt/cowrie
 #sed -i "s,twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid,authbind --deep twistd -y kippo.tac -l log/kippo.log --pidfile kippo.pid," start.sh &>> $logfile
@@ -324,6 +322,7 @@ sed -i "s/test/$SPLUNK_INDEXER/" outputs.conf &>> $logfile
 chown -R splunk:splunk /opt/splunkforwarder &>> $logfile
 /opt/splunkforwarder/bin/splunk restart &>> $logfile
 error_check 'Tango_input installation'
+chmod 777 /opt/cowrie/log/cowrie.json
 
 print_notification "If the location of your kippo log files changes or the hostname/ip of the indexer changes, you will need to modify /opt/splunkfowarder/etc/apps/tango_input/default/inputs.conf and outputs.conf respectively."
 
