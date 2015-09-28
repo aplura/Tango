@@ -24,7 +24,9 @@ This script has been tested on a brand-new install of Ubuntu 14.04 and Cent OS 7
 To get started, run the commands below and follow the prompts to enter the necessary input.
 
 ```
-git clone https://github.com/aplura/Tango.git /tmp/tango; chmod +x /tmp/tango/sensor.sh; /tmp/tango/sensor.sh
+git clone https://github.com/aplura/Tango.git /tmp/tango; chmod +x /tmp/tango/sensor.sh
+cd /tmp/tango/
+./sensor.sh
 ```
 
 There are some options you can change in /opt/cowrie/cowrie.cfg if you choose, however, some of these will break the forwarding of logs (such as changing the listening port set to 2222), however, there are some extra modules, such as mysql or xmpp logging you can enable if you choose, as well as changing the hostname of the honeypot.
@@ -40,7 +42,9 @@ If you already have cowrie honeypots deployed and wish to start analyzing their 
 To get started, run the commands below and follow the prompts to enter the necessary input.
 
 ```
-git clone https://github.com/aplura/Tango.git /tmp/tango; chmod +x /tmp/tango/uf_only.sh; /tmp/tango/uf_only.sh
+git clone https://github.com/aplura/Tango.git /tmp/tango; chmod +x /tmp/tango/uf_only.sh
+cd /tmp/tango/
+./uf_only.sh
 ```
 
 ### Server Installation
