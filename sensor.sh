@@ -322,7 +322,7 @@ sed -i "s/test/$SPLUNK_INDEXER/" outputs.conf &>> $logfile
 chown -R splunk:splunk /opt/splunkforwarder &>> $logfile
 /opt/splunkforwarder/bin/splunk restart &>> $logfile
 error_check 'Tango_input installation'
-chmod 777 /opt/cowrie/log/cowrie.json
+sudo -u cowrie chmod 777 /opt/cowrie/log/cowrie.json
 
 print_notification "If the location of your kippo log files changes or the hostname/ip of the indexer changes, you will need to modify /opt/splunkfowarder/etc/apps/tango_input/default/inputs.conf and outputs.conf respectively."
 
