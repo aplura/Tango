@@ -7,5 +7,5 @@ ip = r.text
 
 ip = ip.rstrip()
 obj = IPWhois(ip)
-results = obj.lookup()
+results = obj.lookup_whois()
 print "sensorIP="+str(ip)+", ASN="+str(results['asn'])+", ASN_Country="+str(results['asn_country_code'])+", description="+str(results['nets'][0]['description']) + ", network_name="+str(results['nets'][0]['name'])+", network_range="+str(results['nets'][0]['range'])
