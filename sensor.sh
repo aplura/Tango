@@ -146,14 +146,14 @@ fi
 if [ -f /etc/debian_version ]; then
     apt-get -y update &>> $logfile
     print_notification "Installing required packages via apt-get.."
-    apt-get -y install python-dev python-openssl python-pyasn1 authbind git libcurl4-gnutls-dev libssl-dev openssh-server&>> $logfile
+    apt-get -y install python-dev python-openssl python-pyasn1 authbind git libcurl4-gnutls-dev libssl-dev libffi-dev openssh-server&>> $logfile
     error_check 'Apt Package Installation'
     
     curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py" &>> $logfile
     python get-pip.py &>> $logfile
     print_notification "Installed pip"
     print_notification "Installing required python packages via pip.."
-    pip install pycrypto service_identity requests ipwhois twisted &>> $logfile
+    pip install pycrypto cryptography service_identity requests ipwhois twisted &>> $logfile
     error_check 'Python pip'
     iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222
 elif [ -f /etc/redhat-release ]; then
